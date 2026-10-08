@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel Eleições 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f4f4f4; --surface:#ffffff; --surface-2:#f9f9f9; --surface-3:#eef1f8;
+  --ink:#1a1b1f; --ink-2:#44474e; --muted:#6b6e76; --line:#e0e2ec; --line-2:#cfd3e0;
+  --brand:#123b99; --brand-2:#2e4f9c; --brand-ink:#123b99; --head-bg:#123b99; --head-ink:#ffffff;
+  --accent:#ebb400; --active:#708d33; --active-ink:#ffffff;
+  --bar:#2e4f9c; --bar-track:#e8e8e8;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s-other:#b0b3bb;
+  --good-bg:#e3f1e0; --good-ink:#22631f; --warn-bg:#fff3cc; --warn-ink:#7a5800;
+  --neutral-bg:#eceef3; --neutral-ink:#44474e; --bad-bg:#fde7e7; --bad-ink:#a3201d;
+  --pk:#123b99; --fk:#a85a00;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08);
+  --sun-on:1; --moon-on:0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#111317; --surface:#1a1d23; --surface-2:#20242b; --surface-3:#232a3a;
+    --ink:#f1f2f6; --ink-2:#c4c6cf; --muted:#9a9ca5; --line:#2e323a; --line-2:#3b404a;
+    --brand:#8fa9ec; --brand-2:#6f8fe0; --brand-ink:#a9bdf2; --head-bg:#0e2564; --head-ink:#ffffff;
+    --accent:#ebb400; --active:#86a640; --active-ink:#0f1400;
+    --bar:#6f8fe0; --bar-track:#2c3039;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s-other:#5b5f68;
+    --good-bg:#1f3a22; --good-ink:#9fdc98; --warn-bg:#3d3210; --warn-ink:#f3d36b;
+    --neutral-bg:#2a2e36; --neutral-ink:#c4c6cf; --bad-bg:#432021; --bad-ink:#f3a3a1;
+    --pk:#a9bdf2; --fk:#f0a64d;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+    --sun-on:0; --moon-on:1;
+  }
+}
+:root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#111317; --surface:#1a1d23; --surface-2:#20242b; --surface-3:#232a3a;
+    --ink:#f1f2f6; --ink-2:#c4c6cf; --muted:#9a9ca5; --line:#2e323a; --line-2:#3b404a;
+    --brand:#8fa9ec; --brand-2:#6f8fe0; --brand-ink:#a9bdf2; --head-bg:#0e2564; --head-ink:#ffffff;
+    --accent:#ebb400; --active:#86a640; --active-ink:#0f1400;
+    --bar:#6f8fe0; --bar-track:#2c3039;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s-other:#5b5f68;
+    --good-bg:#1f3a22; --good-ink:#9fdc98; --warn-bg:#3d3210; --warn-ink:#f3d36b;
+    --neutral-bg:#2a2e36; --neutral-ink:#c4c6cf; --bad-bg:#432021; --bad-ink:#f3a3a1;
+    --pk:#a9bdf2; --fk:#f0a64d;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+    --sun-on:0; --moon-on:1;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 Roboto,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,select,input{font:inherit;color:inherit}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:"Roboto Mono",ui-monospace,Consolas,monospace;font-size:12.5px}
+
+/* header */
+header.top{background:var(--head-bg);color:var(--head-ink);border-bottom:4px solid var(--accent)}
+.top-in{position:relative;max-width:1240px;margin:0 auto;padding:14px 64px 0 16px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 24px}
+.brand{display:flex;align-items:center;gap:12px;padding-bottom:12px;margin-right:auto}
+.brand-mark{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,.12);display:grid;place-items:center}
+.brand h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.2px}
+.brand p{margin:1px 0 0;font-size:12.5px;opacity:.82}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;position:relative}
+nav.tabs button{background:none;border:0;color:var(--head-ink);opacity:.72;padding:10px 14px 13px;cursor:pointer;font-weight:500;white-space:nowrap;transition:opacity .2s}
+nav.tabs button:hover{opacity:1}
+nav.tabs button[aria-selected="true"]{opacity:1}
+.tab-ink{position:absolute;bottom:0;left:0;width:0;height:3px;background:#fff;border-radius:3px 3px 0 0;transition:left .35s cubic-bezier(.2,.7,.2,1),width .35s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.theme-btn{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;display:grid;place-items:center}
+.theme-btn:hover{background:rgba(255,255,255,.22)}
+.theme-btn svg{grid-area:1/1;transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1)}
+.theme-btn .ico-sun{opacity:var(--sun-on);transform:rotate(calc((1 - var(--sun-on)) * -90deg)) scale(calc(.5 + var(--sun-on) * .5))}
+.theme-btn .ico-moon{opacity:var(--moon-on);transform:rotate(calc((1 - var(--moon-on)) * 90deg)) scale(calc(.5 + var(--moon-on) * .5))}
+
+main{max-width:1240px;margin:0 auto;padding:16px 16px 48px}
+section.view[hidden]{display:none}
+
+/* ---------- animações ---------- */
+@keyframes viewIn{from{opacity:0;transform:translateX(var(--dx,0px)) translateY(6px)}to{opacity:1;transform:none}}
+@keyframes viewOut{to{opacity:0;transform:translateX(calc(var(--dx,0px) * -1))}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes swap{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+section.view.enter{animation:viewIn .38s cubic-bezier(.2,.7,.2,1) both}
+section.view.leave{animation:viewOut .14s ease-in forwards}
+section.view.enter .stagger{animation:rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 55ms + 60ms)}
+.swap{animation:swap .32s cubic-bezier(.2,.7,.2,1) both}
+.hb .tr>i,.cand .bar>i,.track>i,.stack>i{transform-origin:left center;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.cand,.tile{animation:pop .35s cubic-bezier(.2,.7,.2,1) both}
+.cand:nth-child(2),.tile:nth-child(2){animation-delay:30ms}
+.cand:nth-child(3),.tile:nth-child(3){animation-delay:60ms}
+.cand:nth-child(4),.tile:nth-child(4){animation-delay:90ms}
+.cand:nth-child(n+5),.tile:nth-child(n+5){animation-delay:120ms}
+.kpi,.tile,.chip,.btn{transition:border-color .2s,background-color .2s,box-shadow .2s,transform .2s}
+.kpi:hover,.tile:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(16,24,40,.12)}
+.der-ent,.der-rel{transition:opacity .25s}
+body,.card,.locbar{transition:background-color .3s,color .3s,border-color .3s}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* ---------- aba "Como foi feito" ---------- */
+.doc{max-width:920px}
+.doc>h2{font-size:18px;margin:28px 0 6px;display:flex;align-items:center;gap:10px;scroll-margin-top:16px}
+.doc>h2 .n{width:28px;height:28px;border-radius:50%;background:var(--brand-2);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+.doc h3{font-size:14.5px;margin:16px 0 4px}
+.doc p,.doc li{color:var(--ink-2);font-size:14px}
+.doc ul,.doc ol{padding-left:22px;margin:6px 0}
+.doc li{margin:4px 0}
+.doc code{font-family:"Roboto Mono",ui-monospace,Consolas,monospace;font-size:12.5px;background:var(--surface-3);padding:1px 5px;border-radius:4px;color:var(--ink)}
+.doc pre{background:var(--surface-3);border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"Roboto Mono",ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.55;color:var(--ink);margin:8px 0}
+.doc :not(pre)>code{overflow-wrap:anywhere}
+.doc pre code{background:none;padding:0}
+main{overflow-x:clip}
+.doc details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:8px 0;background:var(--surface-2)}
+.doc summary{cursor:pointer;font-weight:500;color:var(--brand-ink)}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.toc a{font-size:12.5px;color:var(--brand-ink);background:var(--surface-3);padding:4px 10px;border-radius:999px;text-decoration:none;cursor:pointer}
+.toc a:hover{background:var(--line)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px 10px;margin:14px 0;counter-reset:f}
+.flow>div{position:relative;border:1px solid var(--line);border-radius:10px;padding:12px 12px 10px;background:var(--surface-2);font-size:13px;color:var(--ink-2)}
+.flow>div b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:2px}
+.flow>div::before{counter-increment:f;content:counter(f);position:absolute;top:-9px;left:10px;background:var(--accent);color:#1a1b1f;font-weight:700;font-size:11px;border-radius:999px;padding:0 7px}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:10px 0}
+.stat-row div{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface-2)}
+.stat-row b{display:block;font-size:18px;color:var(--ink)}
+.stat-row span{font-size:12px;color:var(--muted)}
+.ok-list{list-style:none;padding-left:4px!important}
+.ok-list li{padding-left:24px;position:relative}
+.ok-list li::before{content:"✓";position:absolute;left:2px;color:var(--good-ink);font-weight:700}
+
+/* barra de localidade (como no site de resultados) */
+.locbar{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;box-shadow:var(--shadow)}
+.cargos{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--active);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:500;font-size:13px}
+.chip:hover{background:color-mix(in srgb,var(--active) 12%,transparent)}
+.chip[aria-pressed="true"]{background:var(--active);color:var(--active-ink)}
+.field{display:flex;flex-direction:column;gap:3px;min-width:0}
+.field label{font-size:11.5px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
+select,input[type="search"],input[type="text"]{background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;padding:7px 10px;min-width:0;max-width:100%}
+select:focus,input:focus,button:focus-visible{outline:2px solid var(--brand-2);outline-offset:1px}
+.loc-fields{display:flex;flex-wrap:wrap;gap:10px;margin-left:auto}
+.crumbs{width:100%;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.crumbs a{color:var(--brand-ink);text-decoration:none;cursor:pointer;font-weight:500}
+.crumbs a:hover{text-decoration:underline}
+
+/* cards e grid */
+.grid{display:grid;gap:14px;margin-top:14px}
+.g-main{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+@media (max-width:900px){.g-main{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);min-width:0}
+.card h2{margin:0 0 2px;font-size:15.5px;font-weight:700}
+.card h3{margin:14px 0 6px;font-size:14px}
+.card .sub{margin:0 0 12px;color:var(--muted);font-size:12.5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}
+.kpi .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:500}
+.kpi .v{font-size:22px;font-weight:700;margin-top:2px}
+.kpi .d{font-size:12.5px;color:var(--ink-2)}
+
+/* barra de progresso de seções */
+.progress{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}
+.progress .row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2);margin-bottom:6px;gap:8px;flex-wrap:wrap}
+.track{height:10px;background:var(--bar-track);border-radius:999px;overflow:hidden}
+.track>i{display:block;height:100%;background:var(--active);border-radius:999px}
+
+/* composição de votos (barra 100%) */
+.stack{display:flex;height:22px;border-radius:6px;overflow:hidden;gap:2px;margin:6px 0 10px}
+.stack>i{display:block;height:100%}
+.stack>i:first-child{border-radius:6px 0 0 6px}.stack>i:last-child{border-radius:0 6px 6px 0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+
+/* ranking de candidatos */
+.rk-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.rk-tools input{flex:1 1 180px}
+.rk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.cand{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.cand.top{border-color:color-mix(in srgb,var(--active) 55%,var(--line))}
+.ava{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;background:var(--surface-3);color:var(--brand-ink);grid-row:span 2}
+.cand .nm{font-weight:700;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cand .meta{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cand .pct{font-size:19px;font-weight:700;text-align:right}
+.cand .vt{font-size:12px;color:var(--muted);text-align:right}
+.cand .bar{grid-column:2/4;height:6px;background:var(--bar-track);border-radius:999px;overflow:hidden}
+.cand .bar>i{display:block;height:100%;background:var(--bar);border-radius:999px}
+.cand .chapa{grid-column:2/4;font-size:12px;color:var(--ink-2)}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.3px;text-transform:uppercase;vertical-align:1px}
+.b-good{background:var(--good-bg);color:var(--good-ink)}
+.b-warn{background:var(--warn-bg);color:var(--warn-ink)}
+.b-neutral{background:var(--neutral-bg);color:var(--neutral-ink)}
+.b-bad{background:var(--bad-bg);color:var(--bad-ink)}
+.more{margin-top:10px;width:100%;background:none;border:1px dashed var(--line-2);border-radius:8px;padding:8px;cursor:pointer;color:var(--brand-ink);font-weight:500}
+.note{font-size:12.5px;color:var(--ink-2);background:var(--surface-3);border-radius:8px;padding:8px 10px;margin:0 0 10px}
+
+/* gráficos de barras horizontais */
+.hbars{display:flex;flex-direction:column;gap:3px}
+.hb{display:grid;grid-template-columns:minmax(70px,150px) minmax(0,1fr) 74px;gap:8px;align-items:center;padding:3px 4px;border-radius:6px;cursor:default}
+.hb.click{cursor:pointer}
+.hb:hover{background:var(--surface-3)}
+.hb .lb{font-size:12.5px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb .tr{height:14px;position:relative}
+.hb .tr>i{position:absolute;left:0;top:0;bottom:0;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px}
+.hb .vl{font-size:12.5px;text-align:right;color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+.seg button{background:none;border:0;padding:5px 10px;cursor:pointer;font-size:12.5px;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--brand-2);color:#fff}
+.card-head{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+
+/* mosaico de UFs */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tile{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface-2);cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden}
+.tile:hover{border-color:var(--brand-2)}
+.tile .uf{font-weight:700;font-size:13px;display:flex;justify-content:space-between}
+.tile .w{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile .p{font-size:12px;color:var(--muted)}
+.tile .stripe{position:absolute;left:0;top:0;bottom:0;width:5px}
+
+/* tabelas */
+.tbl-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:560px}
+table.t{border-collapse:collapse;width:100%;font-size:13px}
+table.t th,table.t td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.t th{position:sticky;top:0;background:var(--surface-2);font-weight:700;font-size:12px;color:var(--ink-2);cursor:pointer;user-select:none;z-index:1}
+table.t th.n,table.t td.n{text-align:right}
+table.t tbody tr:hover{background:var(--surface-3)}
+table.t tr.click{cursor:pointer}
+th .arr{color:var(--muted);font-weight:400}
+th.pk{color:var(--pk)} th.pk span.k{text-decoration:underline}
+th.fk{color:var(--fk)}
+.pager{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:10px;font-size:12.5px;color:var(--muted)}
+.pager button,.btn{background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:500}
+.pager button:disabled{opacity:.45;cursor:default}
+.btn.pri{background:var(--brand-2);border-color:var(--brand-2);color:#fff}
+.sql{background:var(--surface-3);border-radius:8px;padding:8px 10px;margin:10px 0;overflow-x:auto;white-space:pre;color:var(--ink-2)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+
+/* normalização */
+.nf-step{border-left:4px solid var(--brand-2);padding-left:14px;margin:18px 0}
+.nf-step h2{font-size:17px;margin:0 0 4px}
+.nf-step .rule{font-size:13px;color:var(--ink-2);margin:0 0 10px}
+.schema{font-family:"Roboto Mono",ui-monospace,Consolas,monospace;font-size:12.5px;background:var(--surface-3);border-radius:8px;padding:10px 12px;margin:8px 0;line-height:1.7;overflow-x:auto}
+.schema u{text-decoration-thickness:1.5px;color:var(--pk);font-weight:500}
+.schema .fk{color:var(--fk);font-style:italic}
+td.bad{background:var(--bad-bg);color:var(--bad-ink);font-weight:500}
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mini-grid .tbl-wrap{max-height:none}
+.cap{font-size:12px;font-weight:700;color:var(--ink-2);margin:6px 0 4px;text-transform:uppercase;letter-spacing:.4px}
+.callout{background:var(--warn-bg);color:var(--warn-ink);border-radius:8px;padding:8px 12px;font-size:13px;margin:10px 0}
+.der-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.der-wrap svg{display:block;min-width:900px;width:100%;height:auto}
+.der-ent rect.box{fill:var(--surface);stroke:var(--line-2);stroke-width:1.2}
+.der-ent rect.hd{fill:var(--brand-2)}
+.der-ent text{font-family:Roboto,system-ui,sans-serif;font-size:12px;fill:var(--ink)}
+.der-ent text.h{fill:#fff;font-weight:700;font-size:12.5px}
+.der-ent text.pk{fill:var(--pk);text-decoration:underline;font-weight:500}
+.der-ent text.fk{fill:var(--fk);font-style:italic}
+.der-rel path{fill:none;stroke:var(--muted);stroke-width:1.4}
+.der-rel text{font-size:11px;fill:var(--ink-2);font-weight:700;font-family:Roboto,sans-serif}
+.der-rel text.lbl{font-weight:400;font-style:italic;fill:var(--muted)}
+svg.der.focus .der-ent:not(.on),svg.der.focus .der-rel:not(.on){opacity:.18}
+svg.der .der-rel.on path{stroke:var(--brand-2);stroke-width:2}
+.der-ent{cursor:pointer}
+
+/* tooltip */
+#tip{position:fixed;pointer-events:none;z-index:50;background:var(--ink);color:var(--bg);font-size:12.5px;padding:6px 9px;border-radius:7px;max-width:280px;opacity:0;transition:opacity .08s;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+#tip b{font-weight:700}
+.empty{color:var(--muted);font-size:13px;padding:14px;text-align:center}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:13px;max-width:min(92vw,520px);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:60;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+footer{max-width:1240px;margin:0 auto;padding:0 16px 32px;color:var(--muted);font-size:12px}
+@media (max-width:600px){
+  .loc-fields{margin-left:0;width:100%}
+  .loc-fields .field{flex:1 1 140px}
+  .kpi .v{font-size:19px}
+  .hb{grid-template-columns:minmax(60px,100px) minmax(0,1fr) 62px}
+  .cand{grid-template-columns:38px minmax(0,1fr) auto}
+  .ava{width:38px;height:38px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+      </div>
+      <div>
+        <h1>Painel Eleições 2026</h1>
+        <p>1º turno · 04/10/2026 · base normalizada em 3FN</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-view="resultados" aria-selected="true">Resultados</button>
+      <button role="tab" data-view="candidaturas" aria-selected="false">Candidaturas</button>
+      <button role="tab" data-view="consulta" aria-selected="false">Consulta</button>
+      <button role="tab" data-view="normalizacao" aria-selected="false">Normalização &amp; DER</button>
+      <button role="tab" data-view="processo" aria-selected="false">Como foi feito</button>
+      <span class="tab-ink" id="tabInk" aria-hidden="true"></span>
+    </nav>
+    <button class="theme-btn" id="themeBtn" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro">
+      <svg class="ico-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <svg class="ico-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+<!-- ======================= RESULTADOS ======================= -->
+<section class="view" id="v-resultados">
+  <div class="locbar">
+    <div class="cargos" id="cargoChips" role="group" aria-label="Cargo"></div>
+    <div class="loc-fields">
+      <div class="field"><label for="selUf">Abrangência</label><select id="selUf"></select></div>
+      <div class="field"><label for="selMun">Município</label><select id="selMun"></select></div>
+    </div>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+  <div class="progress" id="progress"></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid g-main">
+    <div class="card" id="rankCard"></div>
+    <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+      <div class="card" id="compCard"></div>
+      <div class="card" id="sideCard"></div>
+    </div>
+  </div>
+  <div class="grid"><div class="card" id="bottomCard"></div></div>
+</section>
+
+<!-- ======================= CANDIDATURAS ======================= -->
+<section class="view" id="v-candidaturas" hidden>
+  <div class="locbar">
+    <div class="toolbar" style="width:100%">
+      <div class="field"><label for="cUf">UF</label><select id="cUf"></select></div>
+      <div class="field"><label for="cCargo">Cargo</label><select id="cCargo"></select></div>
+      <div class="field"><label for="cPart">Partido</label><select id="cPart"></select></div>
+      <div class="field"><label for="cJulg">Situação do julgamento</label><select id="cJulg"></select></div>
+      <div class="field"><label for="cTot">Resultado</label><select id="cTot"></select></div>
+      <div class="field" style="flex:1 1 200px"><label for="cBusca">Buscar nome / número</label><input type="search" id="cBusca" placeholder="ex.: Lula, 13, Tarcísio"></div>
+    </div>
+  </div>
+  <div class="kpis" id="cKpis"></div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))">
+    <div class="card"><h2>Candidaturas por partido</h2><p class="sub">Clique numa barra para filtrar o partido</p><div id="cByParty"></div></div>
+    <div class="card"><h2>Situação do julgamento</h2><p class="sub">Registro de candidatura (deferimento)</p><div id="cByJulg"></div>
+      <h3>Resultado no 1º turno</h3><div id="cByTot"></div></div>
+  </div>
+  <div class="grid"><div class="card"><div class="card-head"><div><h2>Lista de candidaturas</h2><p class="sub" id="cCount"></p></div><button class="btn" id="cExport">Exportar CSV</button></div><div id="cTable"></div></div></div>
+</section>
+
+<!-- ======================= CONSULTA ======================= -->
+<section class="view" id="v-consulta" hidden>
+  <div class="card">
+    <div class="card-head"><div><h2>Consulta às tabelas normalizadas</h2>
+      <p class="sub">Os dados das planilhas (<span class="mono">detalhe_votacao.csv</span>, <span class="mono">lista_candidatos_2026.csv</span> e votos do TSE) já carregados no modelo 3FN. Escolha uma tabela ou visão, filtre, ordene clicando no cabeçalho e exporte.</p></div></div>
+    <div class="toolbar">
+      <div class="field"><label for="qTab">Tabela / visão</label><select id="qTab"></select></div>
+      <div class="field"><label for="qUf">Filtrar UF</label><select id="qUf"></select></div>
+      <div class="field"><label for="qCargo">Filtrar cargo</label><select id="qCargo"></select></div>
+      <div class="field" style="flex:1 1 220px"><label for="qBusca">Texto</label><input type="search" id="qBusca" placeholder="busca em todas as colunas"></div>
+      <button class="btn pri" id="qExport">Exportar CSV</button>
+    </div>
+    <div class="sql mono" id="qSql"></div>
+    <div id="qDesc" class="note" style="margin-top:0"></div>
+    <div id="qTable"></div>
+  </div>
+</section>
+
+<!-- ======================= NORMALIZAÇÃO ======================= -->
+<section class="view" id="v-normalizacao" hidden>
+  <div class="card" id="nfCard"></div>
+  <div class="grid"><div class="card">
+    <div class="card-head"><div><h2>Etapa 4 · Diagrama Entidade-Relacionamento (modelo final 3FN implementado)</h2>
+    <p class="sub">PK sublinhada · <span style="color:var(--fk);font-style:italic">FK em itálico</span> · notação pé-de-galinha (|| = um, ⟨ = muitos). Passe o mouse ou toque numa entidade para destacar seus relacionamentos.</p></div></div>
+    <div class="der-wrap"><svg class="der" id="der" viewBox="0 0 1110 885" role="img" aria-label="Diagrama entidade-relacionamento"></svg></div>
+    <div id="derRels" style="margin-top:12px"></div>
+  </div></div>
+</section>
+<!-- ======================= COMO FOI FEITO ======================= -->
+<section class="view" id="v-processo" hidden>
+  <div class="card"><div class="doc">
+    <h2 style="margin-top:0;font-size:20px">Como este HTML foi construído</h2>
+    <p>Esta aba documenta, passo a passo, o caminho entre as planilhas brutas exportadas do TSE e o painel que você está usando: decisões tomadas, transformações de dados, validações, modelo relacional, arquitetura do código e testes.</p>
+    <nav class="toc" id="docToc">
+      <a data-to="d-visao">Visão geral</a><a data-to="d-fontes">Fontes</a><a data-to="d-decisoes">Decisões</a><a data-to="d-etl">ETL</a>
+      <a data-to="d-validacao">Validações</a><a data-to="d-modelo">Modelo 3FN</a><a data-to="d-arquitetura">Arquitetura</a>
+      <a data-to="d-telas">Telas</a><a data-to="d-design">Design</a><a data-to="d-animacoes">Animações</a><a data-to="d-testes">Testes</a><a data-to="d-limites">Limitações</a><a data-to="d-atualizar">Atualizar</a>
+    </nav>
+
+    <h2 id="d-visao"><span class="n">1</span>Visão geral do processo</h2>
+    <p>O trabalho foi dividido em um <b>pipeline de dados</b> (executado uma vez, em Python) e uma <b>aplicação de visualização</b> (um único arquivo HTML com JavaScript puro). O pipeline gera o banco normalizado em formato JSON, que é embutido no HTML — por isso o arquivo abre com duplo clique e funciona sem internet e sem servidor.</p>
+    <div class="flow">
+      <div><b>Levantamento</b>Leitura das planilhas, perfil das colunas e perguntas de esclarecimento.</div>
+      <div><b>Identidade visual</b>Cores, fonte e layout extraídos do CSS do site de resultados (sem logos).</div>
+      <div><b>Coleta complementar</b>Votos por candidato baixados da API pública de resultados do TSE.</div>
+      <div><b>ETL</b>Leitura, limpeza e decomposição em tabelas 3FN (<code>etl.py</code>).</div>
+      <div><b>Validação</b>Unicidade de PK, integridade de FK e conferência de totais.</div>
+      <div><b>Build</b>JSON embutido no template HTML (<code>build.py</code>).</div>
+      <div><b>Interface</b>Abas, filtros, gráficos SVG/HTML, consulta e DER.</div>
+      <div><b>Testes</b>Navegação real no navegador, console, tema e celular.</div>
+    </div>
+    <div class="stat-row" id="docStats"></div>
+
+    <h2 id="d-fontes"><span class="n">2</span>Fontes de dados</h2>
+    <ul>
+      <li><b><code>detalhe_votacao.csv</code></b> (Portal de Dados Abertos do TSE) — separado por <code>;</code>, codificação Latin‑1, 34 colunas. Cada linha é um <b>município × cargo × turno</b> com totais agregados: aptos, comparecimento, abstenções, brancos, nulos, válidos, votos de legenda, seções etc. Inclui as cidades do exterior (UF <code>ZZ</code>). <b>Não</b> contém candidatos.</li>
+      <li><b><code>lista_candidatos_2026.csv</code></b> — 22 colunas, uma linha por candidatura: UF, partido (só a sigla), número sequencial (<code>sq_candidato</code>), número de urna, nome, nome de urna, cargo, situação do julgamento, situação no 1º turno e teto de gastos. Vices e 1º/2º suplentes de senador aparecem como linhas próprias, com o mesmo número do titular. <b>Não</b> contém votos.</li>
+      <li><b>JSONs de resultado do TSE</b> — como nenhuma planilha trazia votos por candidato, foram baixados 136 arquivos públicos (≈ 6 MB) do endereço <code>resultados.tse.jus.br/oficial/ele2026/{eleição}/dados/{uf}/{uf}-c{cargo}-e{eleição}-u.json</code>: Presidente (Brasil + 27 UFs), Governador, Senador, Deputado Federal (27 cada), Deputado Estadual (26) e Distrital (DF). O padrão do endereço e os códigos de eleição (6257 federal, 6259 estadual) foram descobertos lendo a configuração da cópia do site fornecida na pasta.</li>
+      <li><b>Tabela do enunciado</b> (4 registros fictícios em 0FN) — usada na aba <i>Normalização &amp; DER</i> para demonstrar as Etapas 1 a 3.</li>
+    </ul>
+
+    <h2 id="d-decisoes"><span class="n">3</span>Decisões tomadas antes de programar</h2>
+    <p>Antes de começar, as ambiguidades foram levantadas e resolvidas com você:</p>
+    <ul>
+      <li><b>Modelo unificado:</b> um único DER que cobre o exercício (candidatos, partidos, suplentes) <i>e</i> os agregados reais do detalhe.</li>
+      <li><b>Dados embutidos</b> no HTML, em vez de upload do CSV ou servidor.</li>
+      <li><b>HTML único:</b> a skill encontrada na pasta gera um projeto React + Vite + Express para outra plataforma; dela foram aproveitadas apenas as boas práticas de dashboard (KPIs no topo, filtros numa linha, gráficos com hover, tabelas de dados).</li>
+      <li><b>Sem logos ou marcas do TSE</b> — somente paleta, tipografia e organização da tela.</li>
+      <li><b>Votos buscados no TSE</b>, com aprovação explícita antes do download.</li>
+      <li><b>Vices e suplentes</b> modelados como <code>COMPOSICAO_CHAPA</code>.</li>
+    </ul>
+
+    <h2 id="d-etl"><span class="n">4</span>ETL — da planilha bruta às tabelas 3FN</h2>
+    <p>O script <code>etl.py</code> usa apenas a biblioteca padrão do Python (<code>csv</code>, <code>json</code>), sem pandas. Etapas:</p>
+    <h3>4.1 Leitura e limpeza</h3>
+    <ul>
+      <li>Arquivos lidos em <code>latin-1</code> (padrão do TSE) com delimitador <code>;</code>.</li>
+      <li>Valores especiais <code>#NULO</code> / <code>#NE</code> convertidos para nulo; números com vírgula decimal convertidos para ponto flutuante.</li>
+      <li>Nos JSONs do TSE, os nomes chegam com acentos corrompidos (caractere &#xFFFD;). Por isso os nomes de pessoas vêm sempre do CSV, ligados pelo <code>sq_candidato</code>, e os nomes de partido vêm de uma tabela fixa de nomes oficiais.</li>
+    </ul>
+    <h3>4.2 Dimensões (tabelas de cadastro)</h3>
+    <ul>
+      <li><b>REGIAO</b> e <b>UF</b> a partir das colunas <i>Região</i> e <i>UF</i> do detalhe; o nome do estado (<code>nm_estado</code>) vem de um dicionário <code>sg_uf → nome</code>. Foram acrescentadas as abrangências <code>BR</code> (nacional) e <code>ZZ</code> (exterior).</li>
+      <li><b>MUNICIPIO</b>: uma linha por código distinto, guardando só a FK <code>sg_uf</code>.</li>
+      <li><b>CARGO</b>: códigos oficiais do TSE (1 Presidente, 2 Vice‑presidente, 3 Governador, 4 Vice‑governador, 5 Senador, 6 Dep. Federal, 7 Dep. Estadual, 8 Dep. Distrital, 9 e 10 suplentes).</li>
+      <li><b>PARTIDO</b>: siglas distintas do CSV de candidatos + nome por extenso.</li>
+    </ul>
+    <h3>4.3 Fatos</h3>
+    <ul>
+      <li><b>RESULTADO_MUNICIPIO_CARGO</b>: das 34 colunas do detalhe, as que identificam a linha viraram FKs (município, cargo, ano, turno) e foram mantidas 11 medidas (aptos, comparecimento, abstenções, válidos, nominais, legenda, brancos, nulos, anulados sub judice, seções e seções instaladas). Colunas descritivas repetidas (nome do município, região, UF) foram removidas, pois já estão nas dimensões.</li>
+      <li><b>CANDIDATURA</b>: uma linha por <code>sq_candidato</code>, com FKs para partido, cargo, UF e eleição.</li>
+      <li><b>VOTACAO_CANDIDATO</b>: percorrendo <code>cargo → agremiação → partido → candidato</code> em cada JSON, grava votos, % dos válidos, ordem e um indicador <code>st_voto_valido</code> (0 quando os votos foram anulados sub judice).</li>
+    </ul>
+    <h3>4.4 Composição de chapa (a 1FN na prática)</h3>
+    <p>No enunciado, <code>nm_suplentes</code> guardava uma lista em uma célula. No banco real, cada vice/suplente é uma candidatura, e a tabela <code>COMPOSICAO_CHAPA</code> liga membro → titular. O vínculo é feito pelo campo oficial do JSON (lista <code>vs</code> de cada candidato); quando não existe, usa‑se a mesma (UF, cargo do titular, número) escolhendo o <code>sq_candidato</code> mais próximo.</p>
+    <details><summary>Ver trecho do código</summary><pre><code>CHAPA = {'Vice-presidente': ('Presidente', 'Vice'),
+         'Vice-governador': ('Governador', 'Vice'),
+         '1º Suplente': ('Senador', '1º Suplente'),
+         '2º Suplente': ('Senador', '2º Suplente')}
+for i, c in enumerate(cands):
+    if c.cargo in CHAPA and i not in chapa:
+        pai, tp = CHAPA[c.cargo]
+        opts = titulares[(c.uf, pai, c.nr)]
+        t = min(opts, key=lambda j: abs(int(cands[j].sq) - int(c.sq)))
+        chapa[i] = (t, tp)</code></pre></details>
+    <h3>4.5 Exportação compacta</h3>
+    <p>Para caber bem no HTML, cada tabela é gravada como <b>lista de linhas</b> (sem repetir nomes de colunas) e as FKs internas são <b>índices inteiros</b> para as listas das dimensões. O resultado tem ≈ 4,5 MB.</p>
+
+    <h2 id="d-validacao"><span class="n">5</span>Validações automáticas</h2>
+    <p>Ao final do ETL, o script interrompe a execução se alguma regra falhar e imprime um relatório de conferência:</p>
+    <ul class="ok-list">
+      <li>PK única em <code>RESULTADO_MUNICIPIO_CARGO</code> (município, cargo), <code>VOTACAO_CANDIDATO</code> (candidatura, UF) e <code>CANDIDATURA</code> (sq_candidato).</li>
+      <li>Nenhuma FK órfã: todo <code>sq_candidato</code> dos JSONs existe no CSV de candidatos (0 não encontrados).</li>
+      <li>Todos os 924 vices/suplentes ligados a um titular (0 sem titular).</li>
+      <li>Votos nominais do JSON = votos nominais somados do detalhe, nas 136 combinações UF × cargo (0 divergências).</li>
+      <li>Soma dos votos <i>válidos</i> dos candidatos = votos nominais, nas 136 combinações (0 divergências). A primeira execução acusou 77 diferenças — eram votos de candidatos indeferidos (anulados sub judice), o que motivou a criação do indicador <code>st_voto_valido</code>.</li>
+      <li>Todas as siglas de partido com nome por extenso (a sigla <code>PCDOB</code> foi corrigida após o primeiro teste).</li>
+    </ul>
+
+    <h2 id="d-modelo"><span class="n">6</span>Modelo relacional final (3FN)</h2>
+    <p>Dez tabelas: <code>REGIAO</code>, <code>UF</code>, <code>MUNICIPIO</code>, <code>CARGO</code>, <code>ELEICAO</code>, <code>PARTIDO</code>, <code>CANDIDATURA</code>, <code>COMPOSICAO_CHAPA</code>, <code>VOTACAO_CANDIDATO</code> e <code>RESULTADO_MUNICIPIO_CARGO</code>. Cada atributo não‑chave depende da chave inteira e somente dela: os nomes (estado, partido, cargo, região) ficam apenas em suas tabelas, e as tabelas de fato guardam somente chaves e medidas. O raciocínio de cada etapa e o DER estão na aba <i>Normalização &amp; DER</i>; o conteúdo de cada tabela pode ser consultado na aba <i>Consulta</i>.</p>
+
+    <h2 id="d-arquitetura"><span class="n">7</span>Arquitetura do HTML</h2>
+    <ul>
+      <li><b>Um arquivo, sem dependências:</b> HTML + CSS + JavaScript puro. Não há bibliotecas de gráficos — barras, mosaicos, barra 100% e o DER são desenhados com HTML e SVG gerados pelo próprio código. Só a fonte Roboto é carregada do Google Fonts (com fonte do sistema como alternativa offline).</li>
+      <li><b>Dados embutidos:</b> o JSON fica dentro de <code>&lt;script type="application/json" id="dados"&gt;</code> e é lido com <code>JSON.parse</code> na abertura. O script <code>build.py</code> substitui o marcador de dados do template pelo JSON (escapando <code>&lt;/</code> para não fechar a tag por engano).</li>
+      <li><b>Índices em memória:</b> na carga, as listas viram objetos (<code>UF</code>, <code>MUN</code>, <code>CAND</code>, <code>VOT</code>…) e mapas auxiliares (chapa por titular, votos por candidatura), o que permite filtrar as 28 mil linhas de resultado instantaneamente.</li>
+      <li><b>Estado + render:</b> cada aba tem um objeto de estado (ex.: cargo, UF e município selecionados) e uma função <code>render</code> que redesenha a tela a partir dele — o mesmo padrão de frameworks como React, sem a dependência.</li>
+      <li><b>Carregamento sob demanda:</b> as abas Candidaturas, Consulta, Normalização e esta só são montadas na primeira visita.</li>
+      <li><b>Componentes reutilizáveis:</b> <code>hbars()</code> (barras horizontais com tooltip), <code>renderTable()</code> (tabela ordenável e paginada usada em Candidaturas e Consulta), <code>exportCSV()</code> (gera o arquivo no navegador, com BOM para abrir acentuado no Excel) e um tooltip único que segue o mouse.</li>
+      <li><b>Consulta "SQL":</b> cada filtro da aba Consulta é traduzido para o <code>SELECT … WHERE … ORDER BY … LIMIT</code> equivalente, mostrado acima da tabela. As visões com JOIN remontam a planilha original a partir das tabelas normalizadas.</li>
+      <li><b>Preferências</b> (tema e última aba) ficam no <code>localStorage</code>, protegido por <code>try/catch</code> para funcionar mesmo em janela anônima.</li>
+    </ul>
+
+    <h2 id="d-telas"><span class="n">8</span>Como cada tela usa o modelo</h2>
+    <ul>
+      <li><b>Resultados:</b> KPIs e composição dos votos somam <code>RESULTADO_MUNICIPIO_CARGO</code> filtrado por cargo e abrangência; o ranking lê <code>VOTACAO_CANDIDATO ⨝ CANDIDATURA ⨝ PARTIDO</code> e a chapa vem de <code>COMPOSICAO_CHAPA</code>; o mosaico pega o mais votado de cada UF; para cargos estaduais no nível Brasil, conta eleitos por partido.</li>
+      <li><b>Candidaturas:</b> filtros combinados sobre <code>CANDIDATURA</code> e contagens por partido, julgamento e resultado.</li>
+      <li><b>Consulta:</b> acesso direto às 10 tabelas e a 2 visões, com PK 🔑 e FK ↗ indicadas no cabeçalho.</li>
+      <li><b>Normalização &amp; DER:</b> as tabelas de cada forma normal são geradas a partir dos 4 registros do enunciado (com remoção de duplicatas), e o DER é desenhado em SVG com notação pé‑de‑galinha.</li>
+    </ul>
+
+    <h2 id="d-design"><span class="n">9</span>Design e acessibilidade</h2>
+    <ul>
+      <li><b>Paleta</b> extraída das variáveis do CSS do site de resultados: azul‑marinho (<code>#123B99</code>/<code>#2E4F9C</code>), amarelo (<code>#EBB400</code>) na faixa do cabeçalho, verde (<code>#708D33</code>) no cargo ativo e fundo cinza claro (<code>#F4F4F4</code>), como no site original.</li>
+      <li><b>Tokens de cor</b> em variáveis CSS, com <b>tema escuro</b> próprio (não uma simples inversão), automático pelo sistema ou pelo botão no canto superior.</li>
+      <li><b>Cores com função:</b> barras de magnitude usam um único tom; os 3 candidatos mais votados no país recebem as 3 primeiras cores de uma paleta categórica validada para daltonismo, e os demais ficam em cinza ("Outros"); verde/amarelo/vermelho ficam reservados para situação (Eleito, 2º turno, Indeferido) e sempre vêm com ícone e texto.</li>
+      <li><b>Responsivo:</b> grades que reorganizam as colunas, tabelas com rolagem própria e nenhuma rolagem horizontal na página em telas de 375 px.</li>
+      <li><b>Teclado:</b> setas ← → trocam de aba; o DER destaca relacionamentos também com foco por teclado.</li>
+    </ul>
+
+    <h2 id="d-animacoes"><span class="n">10</span>Animações e navegação fluida</h2>
+    <ul>
+      <li><b>Troca de abas:</b> a aba atual desaparece (140 ms) deslizando para um lado e a nova entra pelo lado oposto (380 ms), sempre no sentido da aba clicada.</li>
+      <li><b>Indicador deslizante:</b> a linha branca sob as abas se move até a aba escolhida.</li>
+      <li><b>Entrada em cascata:</b> os cartões de cada aba aparecem um após o outro (55 ms de intervalo).</li>
+      <li><b>Dados que mudam:</b> ao trocar cargo, UF ou município, os indicadores fazem uma transição curta, as barras crescem a partir da base e os cartões do ranking e do mosaico surgem em sequência.</li>
+      <li><b>Microinterações:</b> cartões e UFs se elevam ao passar o mouse; o DER esmaece o que não está relacionado.</li>
+      <li><b>Respeito ao usuário:</b> com "reduzir movimento" ativado no sistema operacional, todas as animações são desligadas automaticamente.</li>
+    </ul>
+    <details><summary>Ver trecho do código da troca de abas</summary><pre><code>function showView(v){
+  const dx = (nextIdx &gt;= prevIdx ? 1 : -1) * 28 + 'px'; // sentido do deslize
+  moveInk();                                         // indicador sob a aba
+  from.classList.add('leave');                       // sai em 140 ms
+  setTimeout(() =&gt; {
+    from.hidden = true; to.hidden = false;
+    stagger(to);                                     // cartões em cascata
+    to.classList.add('enter');                       // entra em 380 ms
+  }, 140);
+}</code></pre></details>
+
+    <h2 id="d-testes"><span class="n">11</span>Testes realizados</h2>
+    <ul class="ok-list">
+      <li>Painel aberto num navegador real: zero erros no console.</li>
+      <li>Senador/SP conferido com o TSE: eleitorado 34.081.699 e comparecimento 26.394.256, idênticos ao arquivo oficial.</li>
+      <li>Bancada federal eleita no nível Brasil soma 513 deputados.</li>
+      <li>Drill‑down Brasil → Rio de Janeiro → Niterói com indicadores do município.</li>
+      <li>Visão com JOIN na aba Consulta filtrada por RJ reconstrói corretamente a linha de cada candidato.</li>
+      <li>Tema claro e escuro, largura de celular e reposicionamento do DER para que as linhas não cruzem as entidades.</li>
+    </ul>
+
+    <h2 id="d-limites"><span class="n">12</span>Limitações conhecidas</h2>
+    <ul>
+      <li>O TSE divulga votos por candidato por UF; a tabela de votação usa <code>sg_uf</code> e não <code>cd_municipio</code>. Ao escolher um município, os indicadores são do município, mas o ranking é o da UF (há um aviso na tela).</li>
+      <li>Apenas o 1º turno de 2026 está carregado.</li>
+      <li>Em 2026 cada eleitor votou em 2 senadores, então o total de votos para Senador é o dobro do comparecimento; por isso os percentuais de brancos/nulos usam o total de votos como base.</li>
+    </ul>
+
+    <h2 id="d-atualizar"><span class="n">13</span>Como regerar o painel</h2>
+    <pre><code>python -I etl.py detalhe_votacao.csv lista_candidatos_2026.csv pasta_json_votos dados.json
+python -I build.py template.html dados.json dashboard_eleicoes_2026.html</code></pre>
+    <p>Com novas planilhas (por exemplo, do 2º turno), basta rodar os dois comandos: as validações avisam se algo não fechar.</p>
+  </div></div>
+</section>
+</main>
+<footer id="foot"></footer>
+<div id="tip" role="tooltip"></div>
+
+<script id="dados" type="application/json">__DADOS__</script>
+<script>
+(function(){
+'use strict';
+const D = JSON.parse(document.getElementById('dados').textContent);
+const $ = s => document.querySelector(s);
+const el = (t, a, h) => { const e = document.createElement(t); if (a) for (const k in a) e.setAttribute(k, a[k]); if (h != null) e.innerHTML = h; return e; };
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n == null ? '–' : Math.round(n).toLocaleString('pt-BR');
+const pct = (a, b, d = 2) => b ? (100 * a / b).toLocaleString('pt-BR', {minimumFractionDigits: d, maximumFractionDigits: d}) + '%' : '–';
+const pnum = (p, d = 2) => p.toLocaleString('pt-BR', {minimumFractionDigits: d, maximumFractionDigits: d}) + '%';
+const brl = n => n == null || n < 0 ? '–' : n.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL', maximumFractionDigits: 0});
+const norm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} } };
+
+/* ---------- índices do modelo ---------- */
+const UF = D.uf.map(([sg, nome, reg], i) => ({i, sg, nome, reg}));
+const UFi = Object.fromEntries(UF.map(u => [u.sg, u.i]));
+const BR = UFi.BR, ZZ = UFi.ZZ;
+const MUN = D.municipio.map(([cd, nm, uf], i) => ({i, cd, nm, uf}));
+const CARGO = D.cargo.map(([cd, ds], i) => ({i, cd, ds}));
+const PART = D.partido.map(([sg, nm], i) => ({i, sg, nm}));
+const CAND = D.candidatura.map((r, i) => ({i, sq: r[0], nr: r[1], nm: r[2], urna: r[3], p: r[4], c: r[5], uf: r[6], julg: r[7], tot: r[8], teto: r[9]}));
+const RES = D.resultado; // [mun,cargo,aptos,comp,abst,validos,nominais,legenda,brancos,nulos,anulSJ,secoes,secoesInst]
+const VOT = D.votacao_candidato.map(([c, uf, q, p, o, v]) => ({c, uf, q, p, o, v}));
+const CHAPA = {}; D.composicao_chapa.forEach(([t, m, tp]) => (CHAPA[t] = CHAPA[t] || []).push({m, tp}));
+const TITULAR = {}; D.composicao_chapa.forEach(([t, m, tp]) => TITULAR[m] = {t, tp});
+const votByCand = {}; VOT.forEach(v => (votByCand[v.c] = votByCand[v.c] || []).push(v));
+const ufsReais = UF.filter(u => u.sg !== 'BR' && u.sg !== 'ZZ').sort((a, b) => a.nome.localeCompare(b.nome));
+
+/* ---------- tooltip ---------- */
+const tip = $('#tip');
+document.addEventListener('mousemove', e => {
+  const t = e.target.closest('[data-tip]');
+  if (!t) { tip.style.opacity = 0; return; }
+  tip.innerHTML = t.getAttribute('data-tip');
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > innerWidth - 8) x = e.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = e.clientY - h - 14;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px'; tip.style.opacity = 1;
+});
+
+/* ---------- tema ---------- */
+const savedTheme = store.get('painel-tema');
+if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+$('#themeBtn').onclick = () => {
+  const cur = document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const nx = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', nx); store.set('painel-tema', nx);
+};
+
+/* ---------- abas ---------- */
+const tabs = [...document.querySelectorAll('nav.tabs button')];
+const ink = $('#tabInk');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let curView = 'resultados', switching = null;
+function moveInk(){
+  const b = tabs.find(t => t.getAttribute('aria-selected') === 'true'); if (!b) return;
+  ink.style.left = b.offsetLeft + 'px'; ink.style.width = b.offsetWidth + 'px';
+}
+function stagger(sec){
+  // numera os blocos visíveis da aba para entrarem em cascata
+  let i = 0;
+  sec.querySelectorAll(':scope > *, :scope > .grid > *').forEach(e => {
+    if (e.classList.contains('grid')) return;
+    e.classList.add('stagger'); e.style.setProperty('--i', Math.min(i++, 8));
+  });
+}
+function showView(v, instant){
+  if (v === curView && !instant) return;
+  const prevIdx = tabs.findIndex(t => t.dataset.view === curView), nextIdx = tabs.findIndex(t => t.dataset.view === v);
+  const dx = (nextIdx >= prevIdx ? 1 : -1) * 28 + 'px';   // desliza no sentido da aba escolhida
+  tabs.forEach(b => { b.setAttribute('aria-selected', b.dataset.view === v); b.tabIndex = b.dataset.view === v ? 0 : -1; });
+  moveInk();
+  const from = $('#v-' + curView), to = $('#v-' + v);
+  const enter = () => {
+    document.querySelectorAll('section.view').forEach(s => { s.hidden = s !== to; s.classList.remove('leave', 'enter'); });
+    if (v === 'consulta' && !qInit) initConsulta();
+    if (v === 'normalizacao' && !nfInit) initNormalizacao();
+    if (v === 'candidaturas' && !cInit) initCandidaturas();
+    if (v === 'processo' && !docInit) initDoc();
+    to.style.setProperty('--dx', dx);
+    stagger(to);
+    void to.offsetWidth;                    // reinicia a animação
+    to.classList.add('enter');
+    to.addEventListener('animationend', function f(e){ if (e.target === to){ to.classList.remove('enter'); to.removeEventListener('animationend', f); } });
+    if (!instant && scrollY > 140) scrollTo({top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth'});
+  };
+  curView = v; store.set('painel-aba', v);
+  clearTimeout(switching);
+  if (instant || reduceMotion.matches){ enter(); return; }
+  from.style.setProperty('--dx', dx); from.classList.remove('enter'); from.classList.add('leave');
+  switching = setTimeout(enter, 140);
+}
+tabs.forEach(b => b.onclick = () => showView(b.dataset.view));
+addEventListener('resize', moveInk);
+$('nav.tabs').addEventListener('keydown', e => {
+  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  const i = tabs.findIndex(t => t.dataset.view === curView);
+  const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+  n.focus(); showView(n.dataset.view); e.preventDefault();
+});
+function swapIn(...els){ els.forEach(e => { if (!e) return; e.classList.remove('swap'); void e.offsetWidth; e.classList.add('swap'); }); }
+
+/* ---------- helpers de visual ---------- */
+function statusBadge(tot, julg){
+  if (!tot) return julg && julg.startsWith('Indeferido') ? '<span class="badge b-bad">✕ Indeferido</span>' : '';
+  if (tot.startsWith('Eleito')) return '<span class="badge b-good">✓ ' + esc(tot) + '</span>';
+  if (tot.startsWith('2º')) return '<span class="badge b-warn">↻ 2º turno</span>';
+  if (tot === 'Suplente') return '<span class="badge b-neutral">Suplente</span>';
+  return '';
+}
+function initials(s){ const p = s.replace(/[^A-Za-zÀ-ÿ ]/g, ' ').trim().split(/\s+/); return ((p[0] || '')[0] || '') + ((p.length > 1 ? p[p.length - 1][0] : '') || ''); }
+function hbars(items, opt = {}){
+  // items: [{label, value, text, tip, key}]
+  if (!items.length) return '<div class="empty">Sem dados para o filtro.</div>';
+  const max = opt.max || Math.max(...items.map(d => d.value)) || 1;
+  return '<div class="hbars">' + items.map(d =>
+    `<div class="hb${opt.click ? ' click' : ''}" ${d.key != null ? `data-key="${esc(d.key)}"` : ''} data-tip="${esc(d.tip || (d.label + ': ' + d.text))}">
+      <span class="lb">${esc(d.label)}</span><span class="tr"><i style="width:${(100 * d.value / max).toFixed(2)}%${d.color ? ';background:' + d.color : ''}"></i></span><span class="vl num">${esc(d.text)}</span></div>`).join('') + '</div>';
+}
+
+/* =====================================================================
+   ABA RESULTADOS
+   ===================================================================== */
+const CARGO_TABS = [
+  {k: 'pres', label: 'Presidente', cargos: [0]},
+  {k: 'gov', label: 'Governador', cargos: [2]},
+  {k: 'sen', label: 'Senador', cargos: [4]},
+  {k: 'df', label: 'Deputado Federal', cargos: [5]},
+  {k: 'de', label: 'Deputado Estadual/Distrital', cargos: [6, 7]},
+];
+const S = {tab: CARGO_TABS[0], uf: BR, mun: null, rkLimit: 12, rkBusca: '', rkEleitos: false, ufMetric: 'comp'};
+
+const chipBox = $('#cargoChips');
+CARGO_TABS.forEach(t => {
+  const b = el('button', {class: 'chip', 'aria-pressed': t === S.tab}, t.label);
+  b.onclick = () => { S.tab = t; if (S.uf === ZZ && t.k !== 'pres') S.uf = BR; S.rkLimit = 12; render(); };
+  chipBox.appendChild(b); t.btn = b;
+});
+const selUf = $('#selUf'), selMun = $('#selMun');
+selUf.onchange = () => { S.uf = +selUf.value; S.mun = null; S.rkLimit = 12; render(); };
+selMun.onchange = () => { S.mun = selMun.value === '' ? null : +selMun.value; render(); };
+
+function fillUfSelect(){
+  const opts = [`<option value="${BR}">Brasil</option>`].concat(ufsReais.map(u => `<option value="${u.i}">${esc(u.nome)} (${u.sg})</option>`));
+  if (S.tab.k === 'pres') opts.push(`<option value="${ZZ}">Exterior (ZZ)</option>`);
+  selUf.innerHTML = opts.join(''); selUf.value = S.uf;
+  if (S.uf === BR){ selMun.innerHTML = '<option value="">— selecione uma UF —</option>'; selMun.disabled = true; return; }
+  selMun.disabled = false;
+  const ms = MUN.filter(m => m.uf === S.uf).sort((a, b) => a.nm.localeCompare(b.nm));
+  selMun.innerHTML = '<option value="">Todos os municípios</option>' + ms.map(m => `<option value="${m.i}">${esc(m.nm)}</option>`).join('');
+  selMun.value = S.mun == null ? '' : S.mun;
+}
+function cargosFor(tab, uf){
+  if (tab.k === 'de') return uf === BR ? [6, 7] : (UF[uf].sg === 'DF' ? [7] : [6]);
+  return tab.cargos;
+}
+function agg(cargos, uf, mun){
+  const t = new Array(11).fill(0); let n = 0;
+  for (const r of RES){
+    if (!cargos.includes(r[1])) continue;
+    if (mun != null){ if (r[0] !== mun) continue; }
+    else if (uf !== BR && MUN[r[0]].uf !== uf) continue;
+    for (let k = 0; k < 11; k++) t[k] += r[k + 2]; n++;
+  }
+  return {n, aptos: t[0], comp: t[1], abst: t[2], validos: t[3], nominais: t[4], legenda: t[5], brancos: t[6], nulos: t[7], anulSJ: t[8], secoes: t[9], secInst: t[10]};
+}
+function aggByUf(cargos){
+  const m = {};
+  for (const r of RES){
+    if (!cargos.includes(r[1])) continue;
+    const u = MUN[r[0]].uf; const o = m[u] || (m[u] = {aptos: 0, comp: 0, abst: 0, validos: 0, brancos: 0, nulos: 0});
+    o.aptos += r[2]; o.comp += r[3]; o.abst += r[4]; o.validos += r[5]; o.brancos += r[8]; o.nulos += r[9];
+  }
+  return m;
+}
+
+function render(){
+  CARGO_TABS.forEach(t => t.btn.setAttribute('aria-pressed', t === S.tab));
+  fillUfSelect();
+  const cargos = cargosFor(S.tab, S.uf);
+  const a = agg(cargos, S.uf, S.mun);
+  const lugar = S.mun != null ? MUN[S.mun].nm + ' – ' + UF[S.uf].sg : UF[S.uf].nome;
+
+  // breadcrumbs
+  const cr = ['<a data-go="br">Brasil</a>'];
+  if (S.uf !== BR) cr.push('›', `<a data-go="uf">${esc(UF[S.uf].nome)}</a>`);
+  if (S.mun != null) cr.push('›', `<span>${esc(MUN[S.mun].nm)}</span>`);
+  $('#crumbs').innerHTML = cr.join(' ') + ` <span style="margin-left:auto">${esc(S.tab.label)} · dados de carga ${esc(D.meta.dt_carga.slice(0, 16))}</span>`;
+  $('#crumbs').querySelectorAll('a').forEach(x => x.onclick = () => { if (x.dataset.go === 'br'){ S.uf = BR; } S.mun = null; render(); });
+
+  // progresso
+  $('#progress').innerHTML = `<div class="row"><span><b>Seções instaladas:</b> <span class="num">${fmt(a.secInst)} de ${fmt(a.secoes)}</span></span><span class="num">${pct(a.secInst, a.secoes)}</span></div><div class="track" data-tip="Seções instaladas: ${fmt(a.secInst)} / ${fmt(a.secoes)}"><i style="width:${a.secoes ? 100 * a.secInst / a.secoes : 0}%"></i></div>`;
+
+  // KPIs
+  const totVotos = a.validos + a.brancos + a.nulos + a.anulSJ;
+  const k = [
+    ['Eleitorado apto', fmt(a.aptos), a.n + ' registro(s) município×cargo'],
+    ['Comparecimento', fmt(a.comp), pct(a.comp, a.aptos) + ' do eleitorado'],
+    ['Abstenção', fmt(a.abst), pct(a.abst, a.aptos) + ' do eleitorado'],
+    ['Votos válidos', fmt(a.validos), pct(a.validos, totVotos) + ' dos votos' + (a.legenda ? ' · ' + fmt(a.legenda) + ' de legenda' : '')],
+    ['Brancos', fmt(a.brancos), pct(a.brancos, totVotos) + ' dos votos'],
+    ['Nulos', fmt(a.nulos), pct(a.nulos, totVotos) + ' dos votos'],
+  ];
+  $('#kpis').innerHTML = k.map(([l, v, d]) => `<div class="kpi"><div class="l">${l}</div><div class="v num">${v}</div><div class="d num">${d}</div></div>`).join('');
+
+  // composição
+  const parts = [['Válidos', a.validos, 'var(--s1)'], ['Brancos', a.brancos, 'var(--s3)'], ['Nulos', a.nulos, 'var(--s2)']];
+  if (a.anulSJ) parts.push(['Anulados sub judice', a.anulSJ, 'var(--s-other)']);
+  $('#compCard').innerHTML = `<h2>Composição dos votos</h2><p class="sub">${esc(S.tab.label)} · ${esc(lugar)}${S.tab.k === 'sen' ? ' · em 2026 cada eleitor votou em 2 senadores' : ''}</p>
+    <div class="stack">${parts.filter(p => p[1] > 0).map(p => `<i style="flex:${p[1]};background:${p[2]}" data-tip="<b>${p[0]}</b><br>${fmt(p[1])} · ${pct(p[1], totVotos)}"></i>`).join('')}</div>
+    <div class="legend">${parts.map(p => `<span><i class="sw" style="background:${p[2]}"></i>${p[0]} <b class="num">${pct(p[1], totVotos)}</b></span>`).join('')}</div>`;
+
+  renderRanking(cargos);
+  renderSide(cargos);
+  renderBottom(cargos);
+  swapIn($('#kpis'), $('#progress'), $('#compCard'));
+}
+
+function rankingRows(cargos, uf){
+  return VOT.filter(v => v.uf === uf && cargos.includes(CAND[v.c].c)).sort((x, y) => y.q - x.q);
+}
+function candCard(v, i, showUf){
+  const c = CAND[v.c], p = PART[c.p];
+  const ch = (CHAPA[v.c] || []).sort((a, b) => a.tp.localeCompare(b.tp)).map(m => `${esc(m.tp)}: ${esc(CAND[m.m].urna)} (${esc(PART[CAND[m.m].p].sg)})`).join(' · ');
+  const subj = !v.v ? ' <span class="badge b-bad">sub judice</span>' : '';
+  return `<li class="cand${i < 1 ? ' top' : ''}">
+    <div class="ava" aria-hidden="true">${esc(initials(c.urna))}</div>
+    <div style="min-width:0"><div class="nm">${esc(c.urna)} ${statusBadge(c.tot, c.julg)}${subj}</div>
+      <div class="meta">${c.nr} · ${esc(p.sg)}${showUf ? ' · ' + UF[c.uf].sg : ''} · ${esc(c.nm)}</div></div>
+    <div><div class="pct num">${pnum(v.p)}</div><div class="vt num">${fmt(v.q)} votos</div></div>
+    <div class="bar" data-tip="<b>${esc(c.urna)}</b> (${esc(p.sg)})<br>${fmt(v.q)} votos · ${pnum(v.p)} dos válidos"><i style="width:${Math.min(100, v.p)}%"></i></div>
+    ${ch ? `<div class="chapa">${ch}</div>` : ''}
+  </li>`;
+}
+function renderRanking(cargos){
+  const box = $('#rankCard');
+  const isPres = S.tab.k === 'pres';
+  if (S.uf === BR && !isPres){
+    renderBancadas(box, cargos); return;
+  }
+  const uf = S.uf;
+  let rows = rankingRows(cargos, uf);
+  const note = S.mun != null ? `<p class="note">Votos por candidato são divulgados pelo TSE por UF: a lista mostra o total de <b>${esc(UF[uf].nome)}</b>. Os indicadores acima são do município.</p>` : '';
+  const big = rows.length > 15;
+  if (S.rkEleitos) rows = rows.filter(v => (CAND[v.c].tot || '').startsWith('Eleito') || (CAND[v.c].tot || '').startsWith('2º'));
+  if (S.rkBusca){ const q = norm(S.rkBusca); rows = rows.filter(v => norm(CAND[v.c].urna + ' ' + CAND[v.c].nm + ' ' + CAND[v.c].nr + ' ' + PART[CAND[v.c].p].sg).includes(q)); }
+  const shown = rows.slice(0, S.rkLimit);
+  box.innerHTML = `<h2>${esc(S.tab.label)} · ${esc(UF[uf].nome)}</h2><p class="sub">${fmt(rows.length)} candidato(s) · % sobre os votos válidos · fonte: resultados oficiais do TSE por UF</p>${note}
+    ${big ? `<div class="rk-tools"><input type="search" id="rkBusca" placeholder="Buscar candidato, número ou partido" value="${esc(S.rkBusca)}"><label style="font-size:13px;display:flex;gap:6px;align-items:center"><input type="checkbox" id="rkEl" ${S.rkEleitos ? 'checked' : ''}> Só eleitos</label></div>` : ''}
+    <ol class="rk">${shown.map((v, i) => candCard(v, i, false)).join('') || '<div class="empty">Nenhum candidato.</div>'}</ol>
+    ${rows.length > S.rkLimit ? `<button class="more" id="rkMore">Mostrar mais (${fmt(rows.length - S.rkLimit)} restantes)</button>` : ''}`;
+  if (big){
+    const ib = $('#rkBusca'); ib.oninput = () => { S.rkBusca = ib.value; S.rkLimit = 12; renderRanking(cargos); const n = $('#rkBusca'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); };
+    $('#rkEl').onchange = e => { S.rkEleitos = e.target.checked; renderRanking(cargos); };
+  }
+  const mb = $('#rkMore'); if (mb) mb.onclick = () => { S.rkLimit += 25; renderRanking(cargos); };
+}
+function renderBancadas(box, cargos){
+  // Brasil + cargo estadual/legislativo: eleitos por partido
+  const cnt = {}; let tot = 0;
+  CAND.forEach(c => { if (cargos.includes(c.c) && c.tot && c.tot.startsWith('Eleito')){ cnt[c.p] = (cnt[c.p] || 0) + 1; tot++; } });
+  const items = Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([p, n]) => ({label: PART[p].sg, value: n, text: String(n), tip: `<b>${esc(PART[p].nm)}</b><br>${n} eleito(s) · ${pct(n, tot, 1)}`}));
+  const seg = S.tab.k === 'gov' ? 'Governadores eleitos no 1º turno' : S.tab.k === 'sen' ? 'Senadores eleitos' : 'Bancada eleita';
+  box.innerHTML = `<h2>${seg} por partido · Brasil</h2><p class="sub">${fmt(tot)} eleito(s) no 1º turno · selecione uma UF para ver a votação de cada candidato</p>${hbars(items)}`;
+}
+function renderSide(cargos){
+  const box = $('#sideCard');
+  if (S.uf === BR){
+    // mosaico: líder por UF
+    const isPres = S.tab.k === 'pres';
+    const ufsList = isPres ? ufsReais.concat([UF[ZZ]]) : ufsReais;
+    let palette = null;
+    if (isPres){
+      const nat = rankingRows(cargos, BR).slice(0, 3);
+      palette = {}; nat.forEach((v, i) => palette[v.c] = ['var(--s1)', 'var(--s2)', 'var(--s3)'][i]);
+    }
+    const tiles = ufsList.map(u => {
+      const cs = cargosFor(S.tab, u.i);
+      const rr = rankingRows(cs, u.i);
+      if (!rr.length) return '';
+      const lead = rr[0], c = CAND[lead.c];
+      const col = palette ? (palette[lead.c] || 'var(--s-other)') : 'var(--brand-2)';
+      const extra = S.tab.k === 'sen' && rr[1] ? ` · ${esc(CAND[rr[1].c].urna)}` : '';
+      return `<button class="tile" data-uf="${u.i}" data-tip="<b>${esc(u.nome)}</b><br>1º: ${esc(c.urna)} (${esc(PART[c.p].sg)}) ${pnum(lead.p)}${rr[1] ? '<br>2º: ' + esc(CAND[rr[1].c].urna) + ' ' + pnum(rr[1].p) : ''}"><i class="stripe" style="background:${col}"></i>
+        <span class="uf"><span>${u.sg}</span>${statusBadge(c.tot)}</span><span class="w">${esc(c.urna)}${extra}</span><span class="p num">${esc(PART[c.p].sg)} · ${pnum(lead.p)}</span></button>`;
+    }).join('');
+    const leg = palette ? '<div class="legend" style="margin-bottom:10px">' + Object.entries(palette).map(([ci, col]) => `<span><i class="sw" style="background:${col}"></i>${esc(CAND[ci].urna)}</span>`).join('') + '<span><i class="sw" style="background:var(--s-other)"></i>Outros</span></div>' : '';
+    const titulo = S.tab.k === 'pres' ? 'Mais votado por UF' : S.tab.k === 'sen' ? 'Dois mais votados por UF' : S.tab.k === 'gov' ? 'Mais votado por UF' : 'Mais votado(a) por UF';
+    box.innerHTML = `<h2>${titulo}</h2><p class="sub">Clique numa UF para detalhar</p>${leg}<div class="tiles">${tiles}</div>`;
+    box.querySelectorAll('.tile').forEach(t => t.onclick = () => { S.uf = +t.dataset.uf; S.mun = null; S.rkLimit = 12; render(); scrollTo({top: 0, behavior: 'smooth'}); });
+  } else {
+    // municípios da UF
+    const ms = {};
+    for (const r of RES){ if (!cargos.includes(r[1]) || MUN[r[0]].uf !== S.uf) continue; ms[r[0]] = r; }
+    const list = Object.values(ms).sort((a, b) => b[2] - a[2]);
+    const top = list.slice(0, 15).map(r => ({label: MUN[r[0]].nm, value: r[2], text: fmt(r[2]), key: r[0], tip: `<b>${esc(MUN[r[0]].nm)}</b><br>Aptos ${fmt(r[2])}<br>Comparecimento ${pct(r[3], r[2])}<br>Brancos ${pct(r[8], r[3])} · Nulos ${pct(r[9], r[3])}`}));
+    box.innerHTML = `<h2>Maiores colégios eleitorais · ${esc(UF[S.uf].sg)}</h2><p class="sub">Eleitorado apto · ${fmt(list.length)} municípios · clique para detalhar</p>${hbars(top, {click: true})}`;
+    box.querySelectorAll('.hb').forEach(h => h.onclick = () => { S.mun = +h.dataset.key; render(); scrollTo({top: 0, behavior: 'smooth'}); });
+  }
+}
+const UF_METRICS = {
+  comp: ['Comparecimento', o => o.comp / o.aptos],
+  abst: ['Abstenção', o => o.abst / o.aptos],
+  brancos: ['Brancos', o => o.brancos / (o.validos + o.brancos + o.nulos)],
+  nulos: ['Nulos', o => o.nulos / (o.validos + o.brancos + o.nulos)],
+};
+function renderBottom(cargos){
+  const box = $('#bottomCard');
+  const by = aggByUf(cargosFor(S.tab, BR));
+  const f = UF_METRICS[S.ufMetric][1];
+  const items = Object.entries(by).map(([u, o]) => ({u: +u, o, val: f(o)})).sort((a, b) => b.val - a.val)
+    .map(d => ({label: UF[d.u].nome + ' (' + UF[d.u].sg + ')', value: d.val, text: pnum(100 * d.val), key: d.u, color: d.u === S.uf ? 'var(--accent)' : null,
+      tip: `<b>${esc(UF[d.u].nome)}</b><br>Aptos ${fmt(d.o.aptos)}<br>Comparecimento ${pct(d.o.comp, d.o.aptos)} · Abstenção ${pct(d.o.abst, d.o.aptos)}<br>Brancos ${pct(d.o.brancos, d.o.validos + d.o.brancos + d.o.nulos)} · Nulos ${pct(d.o.nulos, d.o.validos + d.o.brancos + d.o.nulos)}`}));
+  box.innerHTML = `<div class="card-head"><div><h2>${UF_METRICS[S.ufMetric][0]} por UF · ${esc(S.tab.label)}</h2><p class="sub">Calculado de RESULTADO_MUNICIPIO_CARGO agregado por UF · UF selecionada em destaque · clique para detalhar</p></div>
+    <div class="seg" role="group">${Object.entries(UF_METRICS).map(([k, v]) => `<button data-m="${k}" aria-pressed="${k === S.ufMetric}">${v[0]}</button>`).join('')}</div></div>${hbars(items, {click: true})}`;
+  box.querySelectorAll('.seg button').forEach(b => b.onclick = () => { S.ufMetric = b.dataset.m; renderBottom(cargos); });
+  box.querySelectorAll('.hb').forEach(h => h.onclick = () => { S.uf = +h.dataset.key; S.mun = null; S.rkLimit = 12; render(); scrollTo({top: 0, behavior: 'smooth'}); });
+}
+
+/* =====================================================================
+   ABA CANDIDATURAS
+   ===================================================================== */
+let cInit = false;
+const C = {uf: '', cargo: '', part: '', julg: '', tot: '', q: '', page: 0, sort: 'nm', dir: 1};
+function initCandidaturas(){
+  cInit = true;
+  const opt = (arr, all) => `<option value="">${all}</option>` + arr.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join('');
+  $('#cUf').innerHTML = opt([[BR, 'Brasil (Presidente)']].concat(ufsReais.map(u => [u.i, u.nome])), 'Todas');
+  $('#cCargo').innerHTML = opt(CARGO.map(c => [c.i, c.ds]), 'Todos');
+  $('#cPart').innerHTML = opt(PART.slice().sort((a, b) => a.sg.localeCompare(b.sg)).map(p => [p.i, p.sg + ' – ' + p.nm]), 'Todos');
+  const uniq = k => [...new Set(CAND.map(c => c[k]).filter(Boolean))].sort();
+  $('#cJulg').innerHTML = opt(uniq('julg').map(v => [v, v]), 'Todas');
+  $('#cTot').innerHTML = opt(uniq('tot').map(v => [v, v]).concat([['__null', 'Sem resultado (#NULO)']]), 'Todos');
+  ['cUf', 'cCargo', 'cPart', 'cJulg', 'cTot'].forEach(id => $('#' + id).onchange = e => { C[{cUf: 'uf', cCargo: 'cargo', cPart: 'part', cJulg: 'julg', cTot: 'tot'}[id]] = e.target.value; C.page = 0; renderCand(); });
+  $('#cBusca').oninput = e => { C.q = e.target.value; C.page = 0; renderCand(); };
+  $('#cExport').onclick = () => exportCSV('candidaturas_filtradas.csv', candCols.map(c => c[1]), filteredCand().map(c => candCols.map(col => col[2](c))));
+  renderCand();
+}
+const candCols = [
+  ['sq', 'sq_candidato', c => c.sq], ['nr', 'nr', c => c.nr], ['urna', 'nm_urna', c => c.urna], ['nm', 'nm_candidato', c => c.nm],
+  ['p', 'partido', c => PART[c.p].sg], ['c', 'cargo', c => CARGO[c.c].ds], ['uf', 'uf', c => UF[c.uf].sg],
+  ['julg', 'situação julgamento', c => c.julg], ['tot', 'resultado', c => c.tot || '#NULO'],
+  ['votos', 'votos', c => { const v = votByCand[c.i]; return v ? v[0].q : ''; }], ['teto', 'teto de gastos (R$)', c => c.teto != null && c.teto >= 0 ? c.teto : ''],
+];
+function filteredCand(){
+  const q = norm(C.q);
+  return CAND.filter(c => (C.uf === '' || c.uf === +C.uf) && (C.cargo === '' || c.c === +C.cargo) && (C.part === '' || c.p === +C.part) &&
+    (C.julg === '' || c.julg === C.julg) && (C.tot === '' || (C.tot === '__null' ? !c.tot : c.tot === C.tot)) &&
+    (!q || norm(c.urna + ' ' + c.nm + ' ' + c.nr + ' ' + PART[c.p].sg).includes(q)));
+}
+function renderCand(){
+  const rows = filteredCand();
+  const n = rows.length, def = rows.filter(c => c.julg.startsWith('Deferido')).length, el_ = rows.filter(c => (c.tot || '').startsWith('Eleito')).length, t2 = rows.filter(c => (c.tot || '').startsWith('2º')).length;
+  const nP = new Set(rows.map(c => c.p)).size;
+  $('#cKpis').innerHTML = [['Candidaturas', fmt(n), nP + ' partido(s)'], ['Deferidas', fmt(def), pct(def, n, 1)], ['Eleitos no 1º turno', fmt(el_), pct(el_, n, 1)], ['Disputam 2º turno', fmt(t2), 'Presidente e Governador']]
+    .map(([l, v, d]) => `<div class="kpi"><div class="l">${l}</div><div class="v num">${v}</div><div class="d num">${d}</div></div>`).join('');
+  const count = (key, lab) => { const m = {}; rows.forEach(c => { const k = key(c); m[k] = (m[k] || 0) + 1; }); return Object.entries(m).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({key: k, label: lab(k), value: v, text: fmt(v), tip: `<b>${esc(lab(k))}</b><br>${fmt(v)} · ${pct(v, n, 1)}`})); };
+  const parts = count(c => c.p, k => PART[k].sg);
+  $('#cByParty').innerHTML = hbars(parts.slice(0, 18), {click: true}) + (parts.length > 18 ? `<p class="sub" style="margin-top:6px">+ ${parts.length - 18} partido(s) com menos candidaturas</p>` : '');
+  $('#cByParty').querySelectorAll('.hb').forEach(h => h.onclick = () => { C.part = h.dataset.key; $('#cPart').value = C.part; C.page = 0; renderCand(); });
+  $('#cByJulg').innerHTML = hbars(count(c => c.julg, k => k));
+  $('#cByTot').innerHTML = hbars(count(c => c.tot || '#NULO (sem totalização)', k => k));
+  $('#cCount').textContent = fmt(n) + ' registro(s) · clique no cabeçalho para ordenar · clique numa linha para ver a chapa';
+  renderTable($('#cTable'), {
+    cols: candCols.map(([k, lab]) => ({k, lab, n: ['nr', 'votos', 'teto'].includes(k)})),
+    rows, val: (c, k) => candCols.find(x => x[0] === k)[2](c), fmt: (k, v) => k === 'votos' ? fmt(v === '' ? null : v) : k === 'teto' ? (v === '' ? '–' : brl(v)) : k === 'tot' ? (v === '#NULO' ? '–' : v) : v,
+    state: C, onChange: renderCand,
+    onRow: c => {
+      const ch = CHAPA[c.i], tt = TITULAR[c.i];
+      let msg = `<b>${esc(c.urna)}</b> (${c.nr} · ${esc(PART[c.p].sg)} · ${esc(CARGO[c.c].ds)} · ${UF[c.uf].sg})`;
+      if (ch) msg += '<br>Chapa: ' + ch.map(m => esc(m.tp) + ' ' + esc(CAND[m.m].urna)).join(', ');
+      if (tt) msg += `<br>${esc(tt.tp)} de ${esc(CAND[tt.t].urna)}`;
+      const v = votByCand[c.i]; if (v) msg += `<br>${fmt(v[0].q)} votos · ${pnum(v[0].p)}`;
+      return msg;
+    }
+  });
+}
+
+/* tabela genérica ordenável + paginada */
+function renderTable(box, o){
+  const PS = 50;
+  const st = o.state; const col = o.cols.find(c => c.k === st.sort) ? st.sort : null;
+  let rows = o.rows;
+  if (col){
+    const isN = o.cols.find(c => c.k === col).n;
+    rows = rows.slice().sort((a, b) => { let x = o.val(a, col), y = o.val(b, col);
+      if (isN){ x = x === '' || x == null ? -Infinity : +x; y = y === '' || y == null ? -Infinity : +y; return (x - y) * st.dir; }
+      return String(x).localeCompare(String(y), 'pt-BR') * st.dir; });
+  }
+  const pages = Math.max(1, Math.ceil(rows.length / PS)); if (st.page >= pages) st.page = pages - 1;
+  const slice = rows.slice(st.page * PS, st.page * PS + PS);
+  box.innerHTML = `<div class="tbl-wrap"><table class="t"><thead><tr>${o.cols.map(c => `<th data-k="${c.k}" class="${c.n ? 'n ' : ''}${c.pk ? 'pk' : ''}${c.fk ? 'fk' : ''}" title="${c.pk ? 'Chave primária' : c.fk ? 'Chave estrangeira → ' + esc(c.fk) : 'Ordenar'}"><span class="k">${esc(c.lab)}</span>${c.pk ? ' 🔑' : ''}${c.fk ? ' ↗' : ''} <span class="arr">${st.sort === c.k ? (st.dir > 0 ? '▲' : '▼') : ''}</span></th>`).join('')}</tr></thead>
+    <tbody>${slice.map((r, i) => `<tr data-i="${i}"${o.onRow ? ' class="click"' : ''}>${o.cols.map(c => { const v = o.val(r, c.k); const d = o.fmt ? o.fmt(c.k, v) : (c.n && v !== '' && v != null ? fmt(v) : v); return `<td class="${c.n ? 'n num' : ''}">${esc(d)}</td>`; }).join('')}</tr>`).join('') || `<tr><td colspan="${o.cols.length}" class="empty">Nenhum registro.</td></tr>`}</tbody></table></div>
+    <div class="pager"><span class="num">${fmt(rows.length ? st.page * PS + 1 : 0)}–${fmt(Math.min(rows.length, st.page * PS + PS))} de ${fmt(rows.length)}</span>
+    <span style="display:flex;gap:6px;align-items:center"><button data-p="-1" ${st.page === 0 ? 'disabled' : ''}>‹ Anterior</button><span class="num">pág. ${st.page + 1}/${pages}</span><button data-p="1" ${st.page >= pages - 1 ? 'disabled' : ''}>Próxima ›</button></span></div>`;
+  box.querySelectorAll('th').forEach(th => th.onclick = () => { const k = th.dataset.k; if (st.sort === k) st.dir = -st.dir; else { st.sort = k; st.dir = o.cols.find(c => c.k === k).n ? -1 : 1; } o.onChange(); });
+  box.querySelectorAll('.pager button').forEach(b => b.onclick = () => { st.page += +b.dataset.p; o.onChange(); });
+  if (o.onRow) box.querySelectorAll('tbody tr[data-i]').forEach(tr => tr.setAttribute('data-tip', o.onRow(slice[+tr.dataset.i])));
+}
+function exportCSV(name, header, rows){
+  const q = v => { const s = v == null ? '' : String(v); return /[;"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const txt = '﻿' + [header].concat(rows).map(r => r.map(q).join(';')).join('\r\n');
+  try {
+    const a = el('a', {href: URL.createObjectURL(new Blob([txt], {type: 'text/csv;charset=utf-8'})), download: name});
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  } catch (e) {}
+  // onde o download é bloqueado (ex.: visualizador online), o CSV também vai para a área de transferência
+  const linhas = rows.length;
+  const ok = () => toast(`${fmt(linhas)} linha(s) exportadas. CSV copiado para a área de transferência — cole no Excel ou num editor.`);
+  try { navigator.clipboard.writeText(txt.slice(1)).then(ok, () => toast('Download iniciado (se o navegador permitir).')); } catch (e) { toast('Download iniciado (se o navegador permitir).'); }
+}
+function toast(msg){
+  let t = $('#toast');
+  if (!t){ t = el('div', {id: 'toast', role: 'status'}); document.body.appendChild(t); }
+  t.textContent = msg; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 3800);
+}
+
+/* =====================================================================
+   ABA CONSULTA (tabelas 3FN)
+   ===================================================================== */
+let qInit = false;
+const Q = {tab: 'resultado', uf: '', cargo: '', q: '', page: 0, sort: null, dir: 1};
+const ufSg = i => UF[i].sg;
+const RESN = D.resultado_cols.slice(2);
+// def: cols [k, label, n?, pk?, fk?], rows(), get(row,k), ufOf(row), cargoOf(row)
+const TABLES = {
+  regiao: {nome: 'REGIAO', desc: 'Regiões geográficas (extraídas da coluna Região do detalhe). Elimina a repetição do nome da região em cada linha.',
+    cols: [['cd_regiao', 'cd_regiao', 1, 1], ['nm_regiao', 'nm_regiao']], rows: () => D.regiao.map((n, i) => [i + 1, n])},
+  uf: {nome: 'UF', desc: 'Unidades da federação. nm_estado depende só de sg_uf (3FN: removida a dependência transitiva cd_municipio → sg_uf → nm_estado). Inclui BR (abrangência nacional) e ZZ (exterior).',
+    cols: [['sg_uf', 'sg_uf', 0, 1], ['nm_estado', 'nm_estado'], ['cd_regiao', 'cd_regiao', 1, 0, 'REGIAO']], rows: () => UF.map(u => [u.sg, u.nome, u.reg == null ? '' : u.reg + 1]), uf: r => UFi[r[0]]},
+  municipio: {nome: 'MUNICIPIO', desc: 'Municípios (código TSE). Guarda apenas a FK sg_uf — o nome do estado vem por junção com UF.',
+    cols: [['cd_municipio', 'cd_municipio', 0, 1], ['nm_municipio', 'nm_municipio'], ['sg_uf', 'sg_uf', 0, 0, 'UF']], rows: () => MUN.map(m => [m.cd, m.nm, ufSg(m.uf)]), uf: r => UFi[r[2]]},
+  cargo: {nome: 'CARGO', desc: 'Cargos em disputa (códigos do TSE). ds_cargo depende só de cd_cargo.',
+    cols: [['cd_cargo', 'cd_cargo', 1, 1], ['ds_cargo', 'ds_cargo']], rows: () => CARGO.map(c => [c.cd, c.ds]), cargo: r => CARGO.findIndex(c => c.cd === r[0])},
+  eleicao: {nome: 'ELEICAO', desc: 'Pleito identificado por (ano, turno).',
+    cols: [['ano', 'ano', 1, 1], ['turno', 'turno', 1, 1], ['dt_eleicao', 'dt_eleicao']], rows: () => [[2026, 1, '2026-10-04']]},
+  partido: {nome: 'PARTIDO', desc: 'Partidos. nm_partido depende só de sg_partido (3FN: removida a dependência transitiva candidato → sg_partido → nm_partido).',
+    cols: [['sg_partido', 'sg_partido', 0, 1], ['nm_partido', 'nm_partido']], rows: () => PART.map(p => [p.sg, p.nm])},
+  candidatura: {nome: 'CANDIDATURA', desc: 'Uma linha por candidatura (fonte: lista_candidatos_2026.csv). Chave natural alternativa: (ano, sg_uf, cd_cargo, nr_candidato).',
+    cols: [['sq_candidato', 'sq_candidato', 0, 1], ['nr_candidato', 'nr_candidato', 1], ['nm_candidato', 'nm_candidato'], ['nm_urna', 'nm_urna'], ['sg_partido', 'sg_partido', 0, 0, 'PARTIDO'], ['cd_cargo', 'cd_cargo', 1, 0, 'CARGO'], ['sg_uf', 'sg_uf', 0, 0, 'UF'], ['ano', 'ano', 1, 0, 'ELEICAO'], ['ds_situacao_julgamento', 'ds_situacao_julgamento'], ['ds_sit_tot_turno', 'ds_sit_tot_turno'], ['vr_despesa_max', 'vr_despesa_max', 1]],
+    rows: () => CAND.map(c => [c.sq, c.nr, c.nm, c.urna, PART[c.p].sg, CARGO[c.c].cd, ufSg(c.uf), 2026, c.julg, c.tot || '', c.teto != null && c.teto >= 0 ? c.teto : '']), uf: r => UFi[r[6]], cargo: r => CARGO.findIndex(c => c.cd === r[5])},
+  composicao: {nome: 'COMPOSICAO_CHAPA', desc: 'Resolve a coluna multivalorada nm_suplentes (1FN): cada vice / suplente vira uma linha ligada à candidatura titular.',
+    cols: [['sq_titular', 'sq_titular', 0, 1, 'CANDIDATURA'], ['sq_membro', 'sq_membro', 0, 1, 'CANDIDATURA'], ['tp_membro', 'tp_membro'], ['nm_titular', '(titular)'], ['nm_membro', '(membro)']],
+    rows: () => D.composicao_chapa.map(([t, m, tp]) => [CAND[t].sq, CAND[m].sq, tp, CAND[t].urna, CAND[m].urna, CAND[t].uf, CAND[t].c]), uf: r => r[5], cargo: r => r[6]},
+  votacao: {nome: 'VOTACAO_CANDIDATO', desc: 'Votos de cada candidatura por abrangência (UF ou BR), conforme divulgado pelo TSE. st_voto_valido = 0 indica votos anulados sub judice.',
+    cols: [['sq_candidato', 'sq_candidato', 0, 1, 'CANDIDATURA'], ['sg_uf', 'sg_uf', 0, 1, 'UF'], ['ano', 'ano', 1, 1, 'ELEICAO'], ['turno', 'turno', 1, 1, 'ELEICAO'], ['qt_votos', 'qt_votos', 1], ['pc_votos_validos', 'pc_votos_validos', 1], ['nr_ordem', 'nr_ordem', 1], ['st_voto_valido', 'st_voto_valido', 1]],
+    rows: () => VOT.map(v => [CAND[v.c].sq, ufSg(v.uf), 2026, 1, v.q, v.p, v.o, v.v, CAND[v.c].c]), uf: r => UFi[r[1]], cargo: r => r[8]},
+  resultado: {nome: 'RESULTADO_MUNICIPIO_CARGO', desc: 'Totais por município × cargo (fonte: detalhe_votacao.csv, 34 colunas → 11 medidas mantidas).',
+    cols: [['cd_municipio', 'cd_municipio', 0, 1, 'MUNICIPIO'], ['cd_cargo', 'cd_cargo', 1, 1, 'CARGO'], ['ano', 'ano', 1, 1, 'ELEICAO'], ['turno', 'turno', 1, 1, 'ELEICAO']].concat(RESN.map(c => [c, c, 1])),
+    rows: () => RES.map(r => [MUN[r[0]].cd, CARGO[r[1]].cd, 2026, 1].concat(r.slice(2), [r[0], r[1]])), uf: r => MUN[r[r.length - 2]].uf, cargo: r => r[r.length - 1]},
+  v_votacao: {nome: 'vw_votacao_candidato (JOIN)', desc: 'Visão desnormalizada para leitura: VOTACAO_CANDIDATO ⨝ CANDIDATURA ⨝ PARTIDO ⨝ CARGO ⨝ UF — reconstrói a "planilha" original sem armazenar redundância.', view: 1,
+    cols: [['ano', 'ano', 1], ['turno', 'turno', 1], ['sg_uf', 'sg_uf'], ['nm_estado', 'nm_estado'], ['ds_cargo', 'ds_cargo'], ['nr_candidato', 'nr_candidato', 1], ['nm_urna', 'nm_urna'], ['sg_partido', 'sg_partido'], ['nm_partido', 'nm_partido'], ['nm_suplentes', 'nm_suplentes (vice/supl.)'], ['qt_votos', 'qt_votos', 1], ['pc_votos_validos', 'pc_votos_validos', 1], ['ds_situacao', 'ds_situacao']],
+    rows: () => VOT.map(v => { const c = CAND[v.c]; return [2026, 1, ufSg(v.uf), UF[v.uf].nome, CARGO[c.c].ds, c.nr, c.urna, PART[c.p].sg, PART[c.p].nm, (CHAPA[v.c] || []).map(m => CAND[m.m].urna).join('; '), v.q, v.p, c.tot || '', c.c]; }), uf: r => UFi[r[2]], cargo: r => r[r.length - 1]},
+  v_resultado: {nome: 'vw_resultado_municipio (JOIN)', desc: 'RESULTADO_MUNICIPIO_CARGO ⨝ MUNICIPIO ⨝ UF ⨝ REGIAO ⨝ CARGO, com percentuais calculados.', view: 1,
+    cols: [['nm_regiao', 'nm_regiao'], ['sg_uf', 'sg_uf'], ['nm_municipio', 'nm_municipio'], ['ds_cargo', 'ds_cargo'], ['qt_aptos', 'qt_aptos', 1], ['qt_comparecimento', 'qt_comparecimento', 1], ['pc_comparecimento', 'pc_comparecimento', 1], ['pc_abstencao', 'pc_abstencao', 1], ['qt_votos_validos', 'qt_votos_validos', 1], ['qt_votos_brancos', 'qt_votos_brancos', 1], ['qt_votos_nulos', 'qt_votos_nulos', 1]],
+    rows: () => RES.map(r => { const m = MUN[r[0]], u = UF[m.uf]; return [D.regiao[u.reg], u.sg, m.nm, CARGO[r[1]].ds, r[2], r[3], r[2] ? +(100 * r[3] / r[2]).toFixed(2) : 0, r[2] ? +(100 * r[4] / r[2]).toFixed(2) : 0, r[5], r[8], r[9], m.uf, r[1]]; }), uf: r => r[r.length - 2], cargo: r => r[r.length - 1]},
+};
+const rowCache = {};
+function initConsulta(){
+  qInit = true;
+  $('#qTab').innerHTML = '<optgroup label="Tabelas (3FN)">' + Object.entries(TABLES).filter(([, t]) => !t.view).map(([k, t]) => `<option value="${k}">${t.nome}</option>`).join('') + '</optgroup><optgroup label="Visões (consultas com JOIN)">' + Object.entries(TABLES).filter(([, t]) => t.view).map(([k, t]) => `<option value="${k}">${t.nome}</option>`).join('') + '</optgroup>';
+  $('#qTab').value = Q.tab;
+  $('#qUf').innerHTML = '<option value="">Todas</option>' + UF.slice().sort((a, b) => a.nome.localeCompare(b.nome)).map(u => `<option value="${u.i}">${u.sg} – ${esc(u.nome)}</option>`).join('');
+  $('#qCargo').innerHTML = '<option value="">Todos</option>' + CARGO.map(c => `<option value="${c.i}">${esc(c.ds)}</option>`).join('');
+  $('#qTab').onchange = e => { Q.tab = e.target.value; Q.page = 0; Q.sort = null; renderConsulta(); };
+  $('#qUf').onchange = e => { Q.uf = e.target.value; Q.page = 0; renderConsulta(); };
+  $('#qCargo').onchange = e => { Q.cargo = e.target.value; Q.page = 0; renderConsulta(); };
+  let deb; $('#qBusca').oninput = e => { clearTimeout(deb); deb = setTimeout(() => { Q.q = e.target.value; Q.page = 0; renderConsulta(); }, 160); };
+  $('#qExport').onclick = () => { const t = TABLES[Q.tab]; exportCSV(t.nome.split(' ')[0].toLowerCase() + '.csv', t.cols.map(c => c[0]), filteredQ().map(r => t.cols.map((c, i) => r[i]))); };
+  renderConsulta();
+}
+function filteredQ(){
+  const t = TABLES[Q.tab];
+  const rows = rowCache[Q.tab] || (rowCache[Q.tab] = t.rows());
+  const q = norm(Q.q.trim()); const nc = t.cols.length;
+  return rows.filter(r => (Q.uf === '' || !t.uf || t.uf(r) === +Q.uf) && (Q.cargo === '' || !t.cargo || t.cargo(r) === +Q.cargo) &&
+    (!q || norm(r.slice(0, nc).join(' ')).includes(q)));
+}
+function renderConsulta(){
+  const t = TABLES[Q.tab];
+  $('#qUf').disabled = !t.uf; $('#qCargo').disabled = !t.cargo;
+  const where = [];
+  if (Q.uf !== '' && t.uf) where.push(`sg_uf = '${UF[+Q.uf].sg}'`);
+  if (Q.cargo !== '' && t.cargo) where.push(`cd_cargo = ${CARGO[+Q.cargo].cd}`);
+  if (Q.q.trim()) where.push(`<qualquer coluna> ILIKE '%${Q.q.trim()}%'`);
+  $('#qSql').textContent = `SELECT ${t.cols.map(c => c[0]).join(', ')}\n  FROM ${t.nome.split(' ')[0]}` + (where.length ? `\n WHERE ${where.join('\n   AND ')}` : '') + (Q.sort ? `\n ORDER BY ${Q.sort} ${Q.dir > 0 ? 'ASC' : 'DESC'}` : '') + `\n LIMIT 50 OFFSET ${Q.page * 50};`;
+  const keys = t.cols.filter(c => c[3]).map(c => c[0]);
+  $('#qDesc').innerHTML = esc(t.desc) + (t.view ? '' : `<br><b>PK:</b> (${keys.join(', ')})` + (t.cols.some(c => c[4]) ? ` · <b>FK:</b> ${t.cols.filter(c => c[4]).map(c => c[0] + ' → ' + c[4]).join(', ')}` : ''));
+  const idx = Object.fromEntries(t.cols.map((c, i) => [c[0], i]));
+  renderTable($('#qTable'), {
+    cols: t.cols.map(c => ({k: c[0], lab: c[1], n: !!c[2], pk: !!c[3], fk: c[4]})),
+    rows: filteredQ(), val: (r, k) => r[idx[k]],
+    fmt: (k, v) => typeof v === 'number' ? (/^(pc_)/.test(k) ? pnum(v) : /^(ano|turno|cd_|nr_|st_)/.test(k) ? String(v) : k === 'vr_despesa_max' ? brl(v) : fmt(v)) : v,
+    state: Q, onChange: renderConsulta,
+  });
+}
+
+/* =====================================================================
+   ABA NORMALIZAÇÃO + DER
+   ===================================================================== */
+let nfInit = false;
+const OFN = [
+  [1, 2026, 1, 35503, 'São Paulo', 'SP', 'São Paulo', 1, 'Presidente', 10, 'Ana Silva', 10, 'Partido A', 'Carlos; Fernanda', 150000, 'ELEITO'],
+  [2, 2026, 1, 35503, 'São Paulo', 'SP', 'São Paulo', 1, 'Presidente', 20, 'Bruno Souza', 20, 'Partido B', 'João', 120000, 'SUPLENTE'],
+  [3, 2026, 1, 33045, 'Rio de Janeiro', 'RJ', 'Rio de Janeiro', 1, 'Presidente', 10, 'Ana Silva', 10, 'Partido A', 'Carlos; Fernanda', 90000, 'ELEITO'],
+  [4, 2026, 1, 33045, 'Rio de Janeiro', 'RJ', 'Rio de Janeiro', 3, 'Governador', 30, 'Carla Dias', 30, 'Partido C', 'Pedro; Maria; José', 80000, 'ELEITO'],
+];
+const OFN_COLS = ['id_reg', 'ano', 'turno', 'cd_municipio', 'nm_municipio', 'sg_uf', 'nm_estado', 'cd_cargo', 'ds_cargo', 'nr_candidato', 'nm_candidato', 'sg_partido', 'nm_partido', 'nm_suplentes', 'qt_votos', 'ds_situacao'];
+function miniTable(cap, cols, rows, opt = {}){
+  const pk = opt.pk || [], fk = opt.fk || [], bad = opt.bad || (() => false);
+  return `<div><div class="cap">${cap}</div><div class="tbl-wrap"><table class="t"><thead><tr>${cols.map(c => `<th class="${pk.includes(c) ? 'pk' : fk.includes(c) ? 'fk' : ''}" style="cursor:default"><span class="k">${c}</span>${fk.includes(c) ? ' ↗' : ''}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((v, j) => `<td class="${typeof v === 'number' ? 'n num ' : ''}${bad(cols[j], v, r) ? 'bad' : ''}">${esc(typeof v === 'number' && v > 9999 ? fmt(v) : v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`;
+}
+const uniqRows = (rows, f) => { const s = new Set(); return rows.map(f).filter(r => { const k = JSON.stringify(r); if (s.has(k)) return false; s.add(k); return true; }); };
+function initNormalizacao(){
+  nfInit = true;
+  const sup1 = []; OFN.forEach(r => r[13].split(';').map(s => s.trim()).forEach((s, i) => sup1.push([r[0], i + 1, s])));
+  const vot1 = OFN.map(r => r.filter((_, j) => j !== 13));
+  const supC = uniqRows(OFN, r => [r[9], 2026]).length;
+  const supRows = []; uniqRows(OFN, r => [r[9], r[13]]).forEach(([nr, s]) => s.split(';').map(x => x.trim()).forEach((x, i) => supRows.push([nr, 2026, i + 1, x])));
+  const mun2 = uniqRows(OFN, r => [r[3], r[4], r[5], r[6]]);
+  const cand2 = uniqRows(OFN, r => [r[9], r[10], r[7], r[8], r[11], r[12], r[15]]);
+  const vot2 = OFN.map(r => [r[3], r[9], r[1], r[2], r[14]]);
+  const uf3 = uniqRows(OFN, r => [r[5], r[6]]), mun3 = uniqRows(OFN, r => [r[3], r[4], r[5]]);
+  const par3 = uniqRows(OFN, r => [r[11], r[12]]), car3 = uniqRows(OFN, r => [r[7], r[8]]);
+  const cand3 = uniqRows(OFN, r => [r[9], r[10], r[11], r[7], r[15]]);
+  const repeated = (c, v) => ['nm_estado', 'nm_municipio', 'nm_partido', 'ds_cargo', 'nm_candidato'].includes(c);
+
+  $('#nfCard').innerHTML = `
+  <h2 style="font-size:18px">Normalização da tabela <span class="mono">votacao.csv</span> (0FN → 3FN)</h2>
+  <p class="sub">Exercício com os 4 registros do enunciado. O mesmo raciocínio foi aplicado às planilhas reais do TSE, resultando no modelo do DER abaixo e nas tabelas da aba <b>Consulta</b>.</p>
+
+  <div class="nf-step"><h2>Etapa 0 · Tabela original (0FN)</h2>
+    <p class="rule">Uma única tabela "planilhão". Células em vermelho: o valor multivalorado (<span class="mono">nm_suplentes</span>) e as repetições que causam anomalias de atualização (ex.: renomear o "Partido A" exige alterar 2 linhas; apagar o registro 4 perde o único dado sobre a Governadora Carla Dias).</p>
+    ${miniTable('votacao (0FN)', OFN_COLS, OFN, {pk: ['id_reg'], bad: (c, v, r) => c === 'nm_suplentes' && String(v).includes(';')})}
+  </div>
+
+  <div class="nf-step"><h2>Etapa 1 · Primeira Forma Normal (1FN)</h2>
+    <p class="rule"><b>Violação:</b> a coluna <span class="mono">nm_suplentes</span> não é atômica — guarda uma lista ("Carlos; Fernanda", "Pedro; Maria; José"), um grupo de repetição. <b>Solução:</b> retirar a coluna e criar uma tabela com uma linha por suplente.</p>
+    <div class="schema">VOTACAO(<u>id_reg</u>, ano, turno, cd_municipio, nm_municipio, sg_uf, nm_estado, cd_cargo, ds_cargo, nr_candidato, nm_candidato, sg_partido, nm_partido, qt_votos, ds_situacao)<br>SUPLENTE(<u><span class="fk">id_reg</span>, nr_ordem</u>, nm_suplente)  <span style="color:var(--muted)">-- FK id_reg → VOTACAO</span></div>
+    <div class="mini-grid">${miniTable('SUPLENTE (1FN)', ['id_reg', 'nr_ordem', 'nm_suplente'], sup1, {pk: ['id_reg', 'nr_ordem'], fk: ['id_reg']})}</div>
+    <div class="callout">Observação: na 1FN os suplentes ainda se repetem para Ana Silva (registros 1 e 3) porque estão presos ao registro de votação — isso é corrigido na 2FN, quando passam a depender do candidato.</div>
+  </div>
+
+  <div class="nf-step"><h2>Etapa 2 · Segunda Forma Normal (2FN)</h2>
+    <p class="rule">Chave da votação: <b>(cd_municipio, nr_candidato, ano, turno)</b>. <b>Dependências parciais encontradas:</b><br>
+      • cd_municipio → nm_municipio, sg_uf, nm_estado (só parte da chave)<br>
+      • nr_candidato → nm_candidato, cd_cargo, ds_cargo, sg_partido, nm_partido, ds_situacao, suplentes<br>
+      • Apenas <span class="mono">qt_votos</span> depende da chave inteira. <span class="mono">id_reg</span> deixa de ser necessário (era chave artificial).</p>
+    <div class="schema">MUNICIPIO(<u>cd_municipio</u>, nm_municipio, sg_uf, nm_estado)<br>CANDIDATO(<u>nr_candidato</u>, nm_candidato, cd_cargo, ds_cargo, sg_partido, nm_partido, ds_situacao)<br>SUPLENTE(<u><span class="fk">nr_candidato</span>, nr_ordem</u>, nm_suplente)<br>VOTACAO(<u><span class="fk">cd_municipio</span>, <span class="fk">nr_candidato</span>, ano, turno</u>, qt_votos)</div>
+    <div class="mini-grid">
+      ${miniTable('MUNICIPIO', ['cd_municipio', 'nm_municipio', 'sg_uf', 'nm_estado'], mun2, {pk: ['cd_municipio'], bad: c => c === 'nm_estado'})}
+      ${miniTable('CANDIDATO', ['nr_candidato', 'nm_candidato', 'cd_cargo', 'ds_cargo', 'sg_partido', 'nm_partido', 'ds_situacao'], cand2, {pk: ['nr_candidato'], bad: c => c === 'nm_partido' || c === 'ds_cargo'})}
+      ${miniTable('SUPLENTE', ['nr_candidato', 'ano', 'nr_ordem', 'nm_suplente'], supRows, {pk: ['nr_candidato', 'ano', 'nr_ordem'], fk: ['nr_candidato']})}
+      ${miniTable('VOTACAO', ['cd_municipio', 'nr_candidato', 'ano', 'turno', 'qt_votos'], vot2, {pk: ['cd_municipio', 'nr_candidato', 'ano', 'turno'], fk: ['cd_municipio', 'nr_candidato']})}
+    </div>
+    <div class="callout">Em vermelho: atributos que ainda dependem de outro atributo não-chave (dependências transitivas), tratados na 3FN. "Ana Silva" agora aparece uma única vez (antes: 2), e os suplentes também.</div>
+  </div>
+
+  <div class="nf-step"><h2>Etapa 3 · Terceira Forma Normal (3FN)</h2>
+    <p class="rule"><b>Dependências transitivas eliminadas:</b><br>
+      • <span class="mono">cd_municipio → sg_uf → nm_estado</span>: nm_estado depende da UF, não do município → tabela <b>UF</b>.<br>
+      • <span class="mono">nr_candidato → sg_partido → nm_partido</span>: nm_partido depende da sigla → tabela <b>PARTIDO</b>.<br>
+      • <span class="mono">nr_candidato → cd_cargo → ds_cargo</span>: a descrição depende do código do cargo → tabela <b>CARGO</b>.<br>
+      • (ano, turno) vira a entidade <b>ELEICAO</b>, referenciada pela votação.</p>
+    <div class="schema">UF(<u>sg_uf</u>, nm_estado)<br>MUNICIPIO(<u>cd_municipio</u>, nm_municipio, <span class="fk">sg_uf</span>)<br>PARTIDO(<u>sg_partido</u>, nm_partido)<br>CARGO(<u>cd_cargo</u>, ds_cargo)<br>ELEICAO(<u>ano, turno</u>)<br>CANDIDATO(<u>nr_candidato</u>, nm_candidato, <span class="fk">sg_partido</span>, <span class="fk">cd_cargo</span>, ds_situacao)<br>SUPLENTE(<u><span class="fk">nr_candidato</span>, nr_ordem</u>, nm_suplente)<br>VOTACAO(<u><span class="fk">cd_municipio</span>, <span class="fk">nr_candidato</span>, <span class="fk">ano</span>, <span class="fk">turno</span></u>, qt_votos)</div>
+    <div class="mini-grid">
+      ${miniTable('UF', ['sg_uf', 'nm_estado'], uf3, {pk: ['sg_uf']})}
+      ${miniTable('MUNICIPIO', ['cd_municipio', 'nm_municipio', 'sg_uf'], mun3, {pk: ['cd_municipio'], fk: ['sg_uf']})}
+      ${miniTable('PARTIDO', ['sg_partido', 'nm_partido'], par3, {pk: ['sg_partido']})}
+      ${miniTable('CARGO', ['cd_cargo', 'ds_cargo'], car3, {pk: ['cd_cargo']})}
+      ${miniTable('CANDIDATO', ['nr_candidato', 'nm_candidato', 'sg_partido', 'cd_cargo', 'ds_situacao'], cand3, {pk: ['nr_candidato'], fk: ['sg_partido', 'cd_cargo']})}
+      ${miniTable('ELEICAO', ['ano', 'turno'], [[2026, 1]], {pk: ['ano', 'turno']})}
+    </div>
+    <h3>Do exercício para o banco real</h3>
+    <p class="rule" style="margin:0">Aplicado às planilhas do TSE, o modelo ganhou alguns ajustes (todos mantendo a 3FN):<br>
+      • <b>CANDIDATO → CANDIDATURA</b> com PK <span class="mono">sq_candidato</span>: no Brasil o número só é único dentro de (ano, UF, cargo) — há centenas de candidatos "1234" em UFs diferentes.<br>
+      • <b>SUPLENTE → COMPOSICAO_CHAPA</b>: vices e 1º/2º suplentes de senador também são candidaturas (têm nome, partido e situação próprios), então a chapa vira um auto-relacionamento CANDIDATURA–CANDIDATURA.<br>
+      • <b>REGIAO</b>: o detalhe traz a região de cada UF (dependência transitiva sg_uf → nm_regiao).<br>
+      • <b>RESULTADO_MUNICIPIO_CARGO</b>: os totais do detalhe (aptos, comparecimento, brancos, nulos…) dependem de (município, cargo, ano, turno), não de candidato.<br>
+      • <b>VOTACAO_CANDIDATO</b>: o TSE divulga votos por candidato por UF; a PK usa <span class="mono">sg_uf</span> no lugar de <span class="mono">cd_municipio</span>.</p>
+  </div>`;
+  drawDER();
+}
+
+function drawDER(){
+  const W = 230, H0 = 28, RH = 18;
+  const E = {
+    REGIAO: {x: 20, y: 20, a: [['cd_regiao', 'pk'], ['nm_regiao']]},
+    UF: {x: 20, y: 150, a: [['sg_uf', 'pk'], ['nm_estado'], ['cd_regiao', 'fk']]},
+    MUNICIPIO: {x: 300, y: 150, a: [['cd_municipio', 'pk'], ['nm_municipio'], ['sg_uf', 'fk']]},
+    RESULTADO_MUNICIPIO_CARGO: {x: 580, y: 20, a: [['cd_municipio', 'pkfk'], ['cd_cargo', 'pkfk'], ['ano', 'pkfk'], ['turno', 'pkfk'], ['qt_aptos'], ['qt_comparecimento'], ['qt_abstencoes'], ['qt_votos_validos'], ['qt_votos_nominais'], ['qt_votos_legenda'], ['qt_votos_brancos'], ['qt_votos_nulos'], ['qt_anulados_subjudice'], ['qt_secoes'], ['qt_secoes_instaladas']]},
+    CARGO: {x: 860, y: 150, a: [['cd_cargo', 'pk'], ['ds_cargo']]},
+    CANDIDATURA: {x: 580, y: 400, a: [['sq_candidato', 'pk'], ['nr_candidato'], ['nm_candidato'], ['nm_urna'], ['sg_partido', 'fk'], ['cd_cargo', 'fk'], ['sg_uf', 'fk'], ['ano', 'fk'], ['ds_situacao_julgamento'], ['ds_sit_tot_turno'], ['vr_despesa_max']]},
+    PARTIDO: {x: 300, y: 470, a: [['sg_partido', 'pk'], ['nm_partido']]},
+    ELEICAO: {x: 860, y: 520, a: [['ano', 'pk'], ['turno', 'pk'], ['dt_eleicao']]},
+    VOTACAO_CANDIDATO: {x: 860, y: 680, a: [['sq_candidato', 'pkfk'], ['sg_uf', 'pkfk'], ['ano', 'pkfk'], ['turno', 'pkfk'], ['qt_votos'], ['pc_votos_validos'], ['nr_ordem'], ['st_voto_valido']]},
+    COMPOSICAO_CHAPA: {x: 580, y: 700, a: [['sq_titular', 'pkfk'], ['sq_membro', 'pkfk'], ['tp_membro']]},
+  };
+  for (const k in E){ E[k].w = W; E[k].h = H0 + E[k].a.length * RH + 8; }
+  // relacionamentos: [de(1), para(N), lado de saída, lado de chegada, card, rótulo, offsets]
+  const R = [
+    ['REGIAO', 'UF', 'b', 't', '1:N', 'agrupa'],
+    ['UF', 'MUNICIPIO', 'r', 'l', '1:N', 'contém', 0.5, 0.5],
+    ['MUNICIPIO', 'RESULTADO_MUNICIPIO_CARGO', 'r', 'l', '1:N', 'apura', 0.5, 0.56],
+    ['CARGO', 'RESULTADO_MUNICIPIO_CARGO', 'l', 'r', '1:N', 'refere', 0.5, 0.56],
+    ['CARGO', 'CANDIDATURA', 'b', 'r', '1:N', 'disputa', 0.5, 0.13],
+    ['PARTIDO', 'CANDIDATURA', 'r', 'l', '1:N', 'lança', 0.5, 0.44],
+    ['UF', 'CANDIDATURA', 'b', 'l', '1:N', 'concorre em', 0.7, 0.13],
+    ['ELEICAO', 'RESULTADO_MUNICIPIO_CARGO', 't', 'r', '1:N', 'período', 0.8, 0.85],
+    ['ELEICAO', 'CANDIDATURA', 'l', 'r', '1:N', 'registra', 0.45, 0.68],
+    ['ELEICAO', 'VOTACAO_CANDIDATO', 'b', 't', '1:N', 'período', 0.5, 0.5],
+    ['CANDIDATURA', 'VOTACAO_CANDIDATO', 'r', 'l', '1:N', 'recebe', 0.9, 0.25],
+    ['UF', 'VOTACAO_CANDIDATO', 'b', 'l', '1:N', 'abrange', 0.3, 0.9],
+    ['CANDIDATURA', 'COMPOSICAO_CHAPA', 'b', 't', '1:N', 'titular de', 0.3, 0.3],
+    ['CANDIDATURA', 'COMPOSICAO_CHAPA', 'b', 't', '1:1', 'membro de', 0.7, 0.7],
+  ];
+  const pt = (e, side, f) => { const o = E[e]; f = f == null ? 0.5 : f;
+    if (side === 'l') return [o.x, o.y + o.h * f]; if (side === 'r') return [o.x + o.w, o.y + o.h * f];
+    if (side === 't') return [o.x + o.w * f, o.y]; return [o.x + o.w * f, o.y + o.h]; };
+  const dir = s => ({l: [-1, 0], r: [1, 0], t: [0, -1], b: [0, 1]}[s]);
+  const sym = (p, s, kind) => { // kind: one | many
+    const [dx, dy] = dir(s), [x, y] = p, nx = -dy, ny = dx;
+    if (kind === 'one'){ return [10, 15].map(d => `M${x + dx * d + nx * 6},${y + dy * d + ny * 6}L${x + dx * d - nx * 6},${y + dy * d - ny * 6}`).join(''); }
+    const bx = x + dx * 14, by = y + dy * 14;
+    return `M${bx},${by}L${x + nx * 7},${y + ny * 7}M${bx},${by}L${x},${y}M${bx},${by}L${x - nx * 7},${y - ny * 7}M${x + dx * 18 + nx * 6},${y + dy * 18 + ny * 6}L${x + dx * 18 - nx * 6},${y + dy * 18 - ny * 6}`;
+  };
+  let rels = '';
+  R.forEach(([a, b, sa, sb, card, lbl, fa, fb], i) => {
+    const p1 = pt(a, sa, fa), p2 = pt(b, sb, fb);
+    const d1 = dir(sa), d2 = dir(sb);
+    const s1 = [p1[0] + d1[0] * 22, p1[1] + d1[1] * 22], s2 = [p2[0] + d2[0] * 22, p2[1] + d2[1] * 22];
+    let mid;
+    if (d1[0] !== 0 && d2[0] !== 0){ const mx = (s1[0] + s2[0]) / 2 + (i % 3 - 1) * 8; mid = `L${mx},${s1[1]}L${mx},${s2[1]}`; }
+    else if (d1[1] !== 0 && d2[1] !== 0){ const my = (s1[1] + s2[1]) / 2; mid = `L${s1[0]},${my}L${s2[0]},${my}`; }
+    else if (d1[0] !== 0){ mid = `L${s2[0]},${s1[1]}`; } else { mid = `L${s1[0]},${s2[1]}`; }
+    if (a === 'UF' && b === 'VOTACAO_CANDIDATO'){ const yb = 862; mid = `L${s1[0]},${yb}L${s2[0]},${yb}`; }
+    const path = `M${p1[0]},${p1[1]}L${s1[0]},${s1[1]}${mid}L${s2[0]},${s2[1]}L${p2[0]},${p2[1]}`;
+    const lx = s2[0] + d2[0] * 4 + (d2[1] !== 0 ? 8 : 0), ly = s2[1] + (d2[0] !== 0 ? -6 : d2[1] * 2);
+    rels += `<g class="der-rel" data-a="${a}" data-b="${b}"><path d="${path}"/><path d="${sym(p1, sa, 'one')}${sym(p2, sb, card === '1:1' ? 'one' : 'many')}"/>
+      <text x="${s1[0] + (d1[1] !== 0 ? 6 : d1[0] * 2 - (d1[0] < 0 ? 8 : 0))}" y="${s1[1] + (d1[0] !== 0 ? -5 : d1[1] * 3)}">1</text>
+      <text x="${lx + (d2[0] < 0 ? -10 : 0)}" y="${ly}">${card === '1:1' ? '1' : 'N'}</text></g>`;
+  });
+  let ents = '';
+  for (const [k, o] of Object.entries(E)){
+    ents += `<g class="der-ent" data-e="${k}" tabindex="0"><rect class="box" x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" rx="8"/><path class="hd" d="M${o.x},${o.y + H0}V${o.y + 8}q0,-8 8,-8H${o.x + o.w - 8}q8,0 8,8V${o.y + H0}Z" fill="var(--brand-2)"/>
+      <text class="h" x="${o.x + 10}" y="${o.y + 19}">${k}</text>` +
+      o.a.map(([n, t], j) => `<text class="${t === 'pk' || t === 'pkfk' ? 'pk' : t === 'fk' ? 'fk' : ''}" x="${o.x + 12}" y="${o.y + H0 + 15 + j * RH}">${t === 'pk' || t === 'pkfk' ? '🔑 ' : t === 'fk' ? '↗ ' : '• '}${n}${t === 'pkfk' ? ' (FK)' : ''}</text>`).join('') + '</g>';
+  }
+  const svg = $('#der');
+  svg.innerHTML = `<g>${rels}</g><g>${ents}</g>
+    <g transform="translate(300,700)" class="der-ent" style="cursor:default"><rect class="box" x="0" y="0" width="230" height="130" rx="8"/>
+      <text x="12" y="22" style="font-weight:700">Legenda</text>
+      <text class="pk" x="12" y="44">🔑 chave primária</text><text class="fk" x="12" y="64">↗ chave estrangeira</text>
+      <path d="M14,86H70M60,80V92M66,80V92" style="stroke:var(--muted);fill:none;stroke-width:1.4"/><text x="80" y="90">um (1)</text>
+      <path d="M14,112H70M56,112L70,105M56,112L70,119M52,106V118" style="stroke:var(--muted);fill:none;stroke-width:1.4"/><text x="80" y="116">muitos (N)</text></g>`;
+  const ents_ = svg.querySelectorAll('.der-ent[data-e]');
+  const focus = k => { svg.classList.toggle('focus', !!k); svg.querySelectorAll('.der-rel').forEach(r => r.classList.toggle('on', !!k && (r.dataset.a === k || r.dataset.b === k)));
+    ents_.forEach(e => e.classList.toggle('on', !!k && (e.dataset.e === k || [...svg.querySelectorAll('.der-rel.on')].some(r => r.dataset.a === e.dataset.e || r.dataset.b === e.dataset.e)))); };
+  ents_.forEach(e => { e.onmouseenter = () => focus(e.dataset.e); e.onmouseleave = () => focus(null); e.onfocus = () => focus(e.dataset.e); e.onblur = () => focus(null); e.onclick = () => focus(e.dataset.e); });
+  $('#derRels').innerHTML = `<div class="cap">Relacionamentos e cardinalidades</div><div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th style="cursor:default">Entidade (lado 1)</th><th style="cursor:default">Relacionamento</th><th style="cursor:default">Entidade (lado N)</th><th style="cursor:default">Cardinalidade</th><th style="cursor:default">Implementação (FK)</th></tr></thead><tbody>${[
+    ['REGIAO', 'agrupa', 'UF', '1:N', 'UF.cd_regiao'],
+    ['UF', 'contém', 'MUNICIPIO', '1:N', 'MUNICIPIO.sg_uf'],
+    ['MUNICIPIO', 'apura', 'RESULTADO_MUNICIPIO_CARGO', '1:N', 'RESULTADO.cd_municipio'],
+    ['CARGO', 'refere', 'RESULTADO_MUNICIPIO_CARGO', '1:N', 'RESULTADO.cd_cargo'],
+    ['MUNICIPIO ↔ CARGO', 'totaliza', '(via RESULTADO_MUNICIPIO_CARGO)', 'N:M', 'tabela associativa'],
+    ['PARTIDO', 'lança', 'CANDIDATURA', '1:N', 'CANDIDATURA.sg_partido'],
+    ['CARGO', 'disputa', 'CANDIDATURA', '1:N', 'CANDIDATURA.cd_cargo'],
+    ['UF', 'concorre em', 'CANDIDATURA', '1:N', 'CANDIDATURA.sg_uf'],
+    ['ELEICAO', 'registra', 'CANDIDATURA', '1:N', 'CANDIDATURA.ano'],
+    ['CANDIDATURA', 'recebe', 'VOTACAO_CANDIDATO', '1:N', 'VOTACAO_CANDIDATO.sq_candidato'],
+    ['UF ↔ CANDIDATURA', 'vota em', '(via VOTACAO_CANDIDATO)', 'N:M', 'tabela associativa'],
+    ['ELEICAO', 'período', 'RESULTADO / VOTACAO', '1:N', '(ano, turno)'],
+    ['CANDIDATURA (titular)', 'compõe chapa', 'COMPOSICAO_CHAPA', '1:N', 'COMPOSICAO_CHAPA.sq_titular'],
+    ['CANDIDATURA (membro)', 'é vice/suplente', 'COMPOSICAO_CHAPA', '1:1', 'COMPOSICAO_CHAPA.sq_membro (PK)'],
+  ].map(r => `<tr>${r.map((v, i) => `<td class="${i === 3 ? 'mono' : ''}">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+
+/* =====================================================================
+   ABA COMO FOI FEITO
+   ===================================================================== */
+let docInit = false;
+function initDoc(){
+  docInit = true;
+  const nChapa = D.composicao_chapa.length;
+  $('#docStats').innerHTML = [
+    [fmt(RES.length), 'resultados município×cargo'], [fmt(MUN.length), 'municípios (+ exterior)'], [fmt(CAND.length), 'candidaturas'],
+    [fmt(VOT.length), 'votações de candidatos'], [fmt(nChapa), 'vices e suplentes ligados'], [fmt(PART.length), 'partidos'], ['10', 'tabelas no modelo 3FN'],
+  ].map(([v, l]) => `<div><b class="num">${v}</b><span>${l}</span></div>`).join('');
+  $('#docToc').querySelectorAll('a').forEach(a => a.onclick = () => document.getElementById(a.dataset.to).scrollIntoView({behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start'}));
+}
+
+/* ---------- inicialização ---------- */
+$('#foot').innerHTML = `Fontes: detalhe_votacao.csv e lista_candidatos_2026.csv (Portal de Dados Abertos do TSE) e resultados oficiais por UF (JSON público do TSE), carga ${esc(D.meta.dt_carga)}. ${fmt(MUN.length)} municípios · ${fmt(CAND.length)} candidaturas · ${fmt(RES.length)} resultados município×cargo · ${fmt(VOT.length)} votações de candidatos. Painel independente, sem vínculo institucional.`;
+render();
+const aba = store.get('painel-aba');
+showView(aba && document.getElementById('v-' + aba) ? aba : 'resultados', true);
+requestAnimationFrame(moveInk);
+if (document.fonts) document.fonts.ready.then(moveInk);
+})();
+</script>
+</body>
+</html>
